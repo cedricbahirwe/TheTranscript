@@ -21,13 +21,8 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            backgroundView
-            Image("auca.logo")
-                .blur(radius:10)
-            //                .zIndex(10)
-            Color.black.opacity(0.3)
-                .zIndex(0)
-
+            MainBackgroundView()
+            
             VStack {
                 Image("gradient1")
                     .resizable()
@@ -35,10 +30,10 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 100)
                     .rotationEffect(.degrees(-180))
-                    .offset(x: 50)
+                    .offset(x: 35)
                     .mask(
                         Text("AUCA Transcript")
-                            .font(.system(size: 40, weight: .black, design: .rounded))
+                            .font(.system(size: 35, weight: .black, design: .rounded))
                     )
                     .background(
                         Color.white.opacity(0.1)
@@ -46,7 +41,6 @@ struct HomeView: View {
                             .cornerRadius(16)
                     )
 
-                
                 VStack {
 
                     Group {
@@ -75,11 +69,9 @@ struct HomeView: View {
                     }
                     .opacity(userMode == .other ? 0 : 1)
                     .animation(.easeInOut, value: userMode)
-
                 }
                 .padding(16)
                 .frame(maxHeight: .infinity)
-
 
                 Button(action: {
                     userMode.toggle()
@@ -104,10 +96,6 @@ struct HomeView: View {
             progressView
         }
         .foregroundColor(.white)
-    }
-
-    private var backgroundView: some View {
-        Color.black.edgesIgnoringSafeArea(.all)
     }
 
     private func handleNewID(_ id: String) {
