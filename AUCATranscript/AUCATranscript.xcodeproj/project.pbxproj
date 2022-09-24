@@ -23,6 +23,7 @@
 		CB2F6EC728DF63150039A7E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB2F6EC628DF63150039A7E3 /* LaunchScreen.storyboard */; };
 		CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECA28DF66860039A7E3 /* Helper.swift */; };
 		CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */; };
+		CB2F6ECF28DFAB7B0039A7E3 /* PDFViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		CB2F6EC828DF63510039A7E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CB2F6ECA28DF66860039A7E3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +162,7 @@
 				CB2F6EB928DF593E0039A7E3 /* LoginView.swift */,
 				CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */,
 				CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */,
+				CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB2F6ECF28DFAB7B0039A7E3 /* PDFViewer.swift in Sources */,
 				CB2F6EB428DF4E480039A7E3 /* AppDelegate.swift in Sources */,
 				CB2F6EC528DF5F120039A7E3 /* AppSessionManager.swift in Sources */,
 				CB2F6EB228DF4D3D0039A7E3 /* HomeView.swift in Sources */,

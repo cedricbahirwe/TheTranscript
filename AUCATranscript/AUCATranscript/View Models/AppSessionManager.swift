@@ -6,11 +6,18 @@
 //
 
 import Foundation
+import Combine
+import PDFKit
 
 final class AppSession: ObservableObject {
     public static let shared = AppSession()
+    private let baseURL = "http://154.68.94.26/Rapport/"
     private let storage: UserDefaults
     @Published private(set) var sessionUser: UserModel?
+    @Published private(set) var isFetchingData = false
+    @Published private(set) var pdfData: Data?
+
+    private var cancellables = Set<AnyCancellable>()
 
     public var isLoggedIn: Bool {
         sessionUser != nil
@@ -21,9 +28,38 @@ final class AppSession: ObservableObject {
         self.sessionUser = getUser()
     }
 
-    // MARK: - Network
-    func loadTranscript() {
+    private func getFullURL(_ studentId: Int) -> URL? {
+        let urlString = baseURL.appending(String(studentId)).appending(".pdf")
+        return URL(string: urlString)
+    }
 
+    // MARK: - Networking
+    func loadMyTranscript() async {
+        guard let myID = sessionUser?.userID else { return }
+        return await loadTranscript(myID)
+    }
+
+    func loadTranscript(_ studentId: Int) async {
+        guard let url = getFullURL(studentId) else { return }
+        DispatchQueue.main.async {
+            self.isFetchingData = true
+        }
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+            DispatchQueue.main.async {
+                self.pdfData = data
+                self.isFetchingData = false
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.isFetchingData = false
+            }
+            print(error.localizedDescription)
+        }
+    }
+
+    func removePDFData() {
+        pdfData = nil
     }
 }
 

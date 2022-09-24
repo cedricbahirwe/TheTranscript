@@ -7,18 +7,17 @@
 
 import SwiftUI
 
-enum UserMode {
-    case `self`
-    case other
+enum AppMode {
+    case normal
+    case search
     mutating func toggle()  {
-        self = self == .`self` ? .other : .`self`
+        self = self == .normal ? .search : .normal
     }
 }
 struct HomeView: View {
-    @State private var userMode: UserMode = .self
-    @State private var enteredID = ""
-    @State private var isLoading = false
     @EnvironmentObject private var appSession: AppSession
+    @State private var userMode: AppMode = .normal
+    @State private var enteredID = ""
 
     var body: some View {
         ZStack {
@@ -42,46 +41,53 @@ struct HomeView: View {
                             .cornerRadius(16)
                     )
 
-                VStack {
+                ZStack {
 
                     Group {
-                        TextField("Enter your friend's student ID",
-                                  text: $enteredID.onChange(handleNewID))
-                        .padding(.horizontal, 15)
-                        .padding(.vertical, 8)
-                        .font(.system(size: enteredID.isEmpty ? 20 : 40,
-                                      weight: .black,
-                                      design: .rounded))
+                        if let pdfData = appSession.pdfData {
+                            PDFViewer(pdfData, singlePage: false)
+                        }
+                    }
+                    .opacity(appSession.pdfData == nil ? 0 : 1)
+                    //                    .animation(.easeInOut, value: userMode)
+                    VStack {
+                        HStack {
+                            TextField("Enter your friend's student ID",
+                                      text: $enteredID.onChange(handleNewID))
+                            .keyboardType(.decimalPad)
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 8)
+                            .frame(minWidth: 100)
+                            .font(.system(size: enteredID.isEmpty ? 16 : 40,
+                                          weight: .black,
+                                          design: .rounded))
+
+                            Button(action: findTranscript) {
+                                Image(systemName: "magnifyingglass")
+                                    .padding()
+                                    .background(Color.accentColor)
+                                    .clipShape(Circle())
+                            }
+                        }
                         .background(Color.white.opacity(0.3))
-                        .cornerRadius(10)
+                        .clipShape(Capsule())
                         .animation(.easeInOut, value: enteredID)
 
                         Text("It should be a 5 digits number")
                             .italic()
                     }
-                    .opacity(userMode == .`self` ? 0 : 1)
+                    .opacity(userMode == .search ? 1 : 0)
                     .animation(.easeInOut, value: userMode)
-
-                    Group {
-                        VStack {
-                            // Transcript goes here
-                            Text("Transcript")
-                        }
-                    }
-                    .opacity(userMode == .other ? 0 : 1)
-                    .animation(.easeInOut, value: userMode)
+                    .padding(16)
                 }
-                .padding(16)
                 .frame(maxHeight: .infinity)
 
-                Button(action: {
-                    userMode.toggle()
-                }, label: {
+                Button(action: handleModeChange) {
                     Group {
                         switch userMode {
-                        case .other:
+                        case .search:
                             Text("Go Home")
-                        case .`self`:
+                        case .normal:
                             HStack {
                                 Image(systemName: "magnifyingglass")
                                 Text("Search transcript a friend")
@@ -91,13 +97,46 @@ struct HomeView: View {
                     .padding()
                     .background(Color.accentColor)
                     .clipShape(Capsule())
-                })
+                }
             }
 
             progressView
         }
         .foregroundColor(.white)
-        .onAppear(perform: appSession.loadTranscript)
+        .onAppear {
+            Task {
+                await loadTranscript()
+            }
+        }
+    }
+
+
+    private func loadTranscript() async {
+        switch userMode {
+        case .normal:
+            await appSession.loadMyTranscript()
+        case .search:
+            guard enteredID.count == 5,
+                  let otherId = Int(enteredID) else { return }
+
+            await appSession.loadTranscript(otherId)
+        }
+    }
+
+    private func handleModeChange() {
+        hideKeyboard()
+        userMode.toggle()
+        appSession.removePDFData()
+    }
+
+    private func findTranscript() {
+        hideKeyboard()
+
+        Task {
+            await loadTranscript()
+            userMode = .normal
+            enteredID = ""
+        }
     }
 
     private func handleNewID(_ id: String) {
@@ -106,7 +145,7 @@ struct HomeView: View {
 
     private var progressView: some View {
         Group {
-            if !isLoading {
+            if appSession.isFetchingData {
                 ZStack {
                     Color.black
 
