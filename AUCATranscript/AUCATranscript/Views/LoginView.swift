@@ -29,6 +29,7 @@ struct LoginView: View {
                 .allowsTightening(false)
 
                 vstack("Your AUCA Student ID", $loginModel.studentId)
+                    .keyboardType(.decimalPad)
 
                 vstack("Your First Name", $loginModel.firstName)
 

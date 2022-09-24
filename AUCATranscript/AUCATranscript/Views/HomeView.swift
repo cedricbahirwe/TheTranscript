@@ -106,7 +106,7 @@ struct HomeView: View {
 
     private var progressView: some View {
         Group {
-            if isLoading {
+            if !isLoading {
                 ZStack {
                     Color.black
 
@@ -115,7 +115,7 @@ struct HomeView: View {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .blue))
                         } else {
-                            // Fallback on earlier versions
+                            ActivityIndicator()
                         }
                         Text("Wait a moment...")
                     }
@@ -128,6 +128,7 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
+            .environmentObject(AppSession.shared)
     }
 }
 
