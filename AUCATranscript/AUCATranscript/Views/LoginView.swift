@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var loginModel = LoginModel()
+    @EnvironmentObject private var appSession: AppSession
+    @State private var loginModel = LoginModel()
 
     var body: some View {
         ZStack {
             MainBackgroundView()
             
-            VStack(alignment: .leading, spacing: 30) {
+            VStack(alignment: .leading, spacing: 20) {
                 Spacer()
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Enter a few details to get started")
@@ -24,6 +25,8 @@ struct LoginView: View {
                         .font(.system(.body).italic())
                         .opacity(0.9)
                 }
+                .layoutPriority(10)
+                .allowsTightening(false)
 
                 vstack("Your AUCA Student ID", $loginModel.studentId)
 
@@ -32,7 +35,7 @@ struct LoginView: View {
                 vstack("Your Last Name", $loginModel.lastName)
 
                 Button {
-
+                    saveUser()
                 } label: {
                     HStack {
                         Text("Get Transcript")
@@ -80,11 +83,26 @@ struct LoginView: View {
             .foregroundColor(.black)
         }
     }
+
+    private func saveUser() {
+        hideKeyboard()
+        guard (loginModel.studentId).count == 5,
+              let studentID = Int(loginModel.studentId)
+        else { return }
+
+        guard let user = UserModel(userID: studentID,
+                                   firstName: loginModel.firstName,
+                                   lastName: loginModel.lastName) else {
+            return
+        }
+        appSession.saveUser(user)
+    }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+            .environmentObject(AppSession.shared)
     }
 }
 

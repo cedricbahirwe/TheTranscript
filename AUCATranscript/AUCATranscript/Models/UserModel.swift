@@ -8,7 +8,8 @@
 import Foundation
 
 struct UserModel: Codable {
-    init(userID: Int, firstName: String, lastName: String, createdDate: Date = Date()) {
+    init?(userID: Int, firstName: String, lastName: String, createdDate: Date = Date()) {
+        guard String(userID).count == 5 else { return nil }
         self.userID = userID
         self.firstName = firstName
         self.lastName = lastName

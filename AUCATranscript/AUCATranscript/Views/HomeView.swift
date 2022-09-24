@@ -18,6 +18,7 @@ struct HomeView: View {
     @State private var userMode: UserMode = .self
     @State private var enteredID = ""
     @State private var isLoading = false
+    @EnvironmentObject private var appSession: AppSession
 
     var body: some View {
         ZStack {
@@ -96,6 +97,7 @@ struct HomeView: View {
             progressView
         }
         .foregroundColor(.white)
+        .onAppear(perform: appSession.loadTranscript)
     }
 
     private func handleNewID(_ id: String) {

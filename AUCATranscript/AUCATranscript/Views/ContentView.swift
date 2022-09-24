@@ -8,18 +8,21 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isLoggedIn: Bool
+    @EnvironmentObject var appSession: AppSession
     var body: some View {
-        if isLoggedIn {
+        if appSession.isLoggedIn {
             HomeView()
+                .environmentObject(appSession)
         } else {
             LoginView()
+                .environmentObject(appSession)
         }
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(isLoggedIn: false)
+        ContentView()
+            .environmentObject(AppSession.shared)
     }
 }
