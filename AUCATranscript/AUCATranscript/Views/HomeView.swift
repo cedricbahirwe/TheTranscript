@@ -7,33 +7,31 @@
 
 import SwiftUI
 
-enum AppMode {
-    case normal
-    case search
-    mutating func toggle()  {
-        self = self == .normal ? .search : .normal
-    }
-}
 struct HomeView: View {
     @EnvironmentObject private var appSession: AppSession
     @State private var userMode: AppMode = .normal
     @State private var enteredID = ""
+    @State private var isPresentingShareSheet = false
 
+
+    private var titleView: some View {
+        Text("AUCA Transcript")
+            .font(.system(size: 40, weight: .black, design: .rounded))
+    }
     var body: some View {
         ZStack {
             MainBackgroundView()
             
             VStack {
-                Image("gradient1")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 100)
-                    .rotationEffect(.degrees(-180))
-                    .offset(x: 35)
-                    .mask(
-                        Text("AUCA Transcript")
-                            .font(.system(size: 35, weight: .black, design: .rounded))
+                titleView
+                    .opacity(0)
+                    .overlay (
+                        Image("auca.home")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 100)
+                            .mask(titleView)
                     )
                     .background(
                         Color.white.opacity(0.1)
@@ -46,6 +44,16 @@ struct HomeView: View {
                     Group {
                         if let pdfData = appSession.pdfData {
                             PDFViewer(pdfData, singlePage: false)
+                                .overlay (
+                                    Image(systemName: "square.and.arrow.up")
+                                        .foregroundColor(.white)
+                                        .padding(10)
+                                        .background(Color.accentColor)
+                                        .clipShape(Circle())
+                                        .onTapGesture(perform: sharePDF)
+                                        .padding(12)
+                                    , alignment: .topTrailing
+                                )
                         }
                     }
                     .opacity(appSession.pdfData == nil ? 0 : 1)
@@ -90,7 +98,7 @@ struct HomeView: View {
                         case .normal:
                             HStack {
                                 Image(systemName: "magnifyingglass")
-                                Text("Search transcript a friend")
+                                Text("Search transcript for friend")
                             }
                         }
                     }
@@ -103,6 +111,7 @@ struct HomeView: View {
             progressView
         }
         .foregroundColor(.white)
+        .shareSheet(isPresented: $isPresentingShareSheet, items: [appSession.pdfData ?? []])
         .onAppear {
             Task {
                 await loadTranscript()
@@ -121,6 +130,13 @@ struct HomeView: View {
 
             await appSession.loadTranscript(otherId)
         }
+    }
+
+    private func sharePDF() {
+        guard let _ = appSession.pdfData else {
+            return
+        }
+        isPresentingShareSheet.toggle()
     }
 
     private func handleModeChange() {
@@ -164,21 +180,21 @@ struct HomeView: View {
     }
 }
 
+extension HomeView {
+    enum AppMode {
+        case normal
+        case search
+        mutating func toggle()  {
+            self = self == .normal ? .search : .normal
+        }
+    }
+}
+
+#if DEBUG
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(AppSession.shared)
     }
 }
-
-extension Binding {
-    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
-        Binding(
-            get: { self.wrappedValue },
-            set: { newValue in
-                self.wrappedValue = newValue
-                handler(newValue)
-            }
-        )
-    }
-}
+#endif
