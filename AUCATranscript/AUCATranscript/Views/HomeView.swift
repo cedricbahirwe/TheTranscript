@@ -56,7 +56,7 @@ struct HomeView: View {
                                 )
                         }
                     }
-                    .opacity(appSession.pdfData == nil ? 0 : 1)
+                    .opacity(appSession.pdfData == nil || userMode == .search ? 0 : 1)
                     //                    .animation(.easeInOut, value: userMode)
                     VStack {
                         HStack {
@@ -94,7 +94,10 @@ struct HomeView: View {
                     Group {
                         switch userMode {
                         case .search:
-                            Text("Go Home")
+                            HStack {
+                                Image(systemName: "house")
+                                Text("Go Home")
+                            }
                         case .normal:
                             HStack {
                                 Image(systemName: "magnifyingglass")
@@ -111,6 +114,13 @@ struct HomeView: View {
             progressView
         }
         .foregroundColor(.white)
+        .alert(item: $appSession.alert) { alert in
+            Alert(title: Text(alert.title),
+                  message: Text(alert.message),
+                  dismissButton: .default(Text("Okay!"),
+                                          action: handleOkayAction)
+            )
+        }
         .shareSheet(isPresented: $isPresentingShareSheet, items: [appSession.pdfData ?? []])
         .onAppear {
             Task {
@@ -119,6 +129,9 @@ struct HomeView: View {
         }
     }
 
+    private func handleOkayAction() {
+
+    }
 
     private func loadTranscript() async {
         switch userMode {
@@ -142,7 +155,6 @@ struct HomeView: View {
     private func handleModeChange() {
         hideKeyboard()
         userMode.toggle()
-        appSession.removePDFData()
     }
 
     private func findTranscript() {

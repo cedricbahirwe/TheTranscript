@@ -16,6 +16,7 @@ final class AppSession: ObservableObject {
     @Published private(set) var sessionUser: UserModel?
     @Published private(set) var isFetchingData = false
     @Published private(set) var pdfData: Data?
+    @Published public var alert: AlertModel?
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -45,10 +46,16 @@ final class AppSession: ObservableObject {
             self.isFetchingData = true
         }
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
+            let (data, response) = try await URLSession.shared.data(from: url)
+            print(response)
             DispatchQueue.main.async {
-                self.pdfData = data
                 self.isFetchingData = false
+                if (response as? HTTPURLResponse)?.statusCode == 200 {
+                    self.pdfData = data
+                } else {
+                    self.pdfData = nil
+                    self.alert = AlertModel(message: "Sorry, We could not find the transcript for the provided student id.")
+                }
             }
         } catch {
             DispatchQueue.main.async {
