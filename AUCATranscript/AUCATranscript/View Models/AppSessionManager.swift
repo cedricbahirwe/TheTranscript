@@ -46,20 +46,16 @@ final class AppSession: ObservableObject {
             self.isFetchingData = true
         }
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            print(response)
+            let data = try Data(contentsOf: url)
             DispatchQueue.main.async {
                 self.isFetchingData = false
-                if (response as? HTTPURLResponse)?.statusCode == 200 {
-                    self.pdfData = data
-                } else {
-                    self.pdfData = nil
-                    self.alert = AlertModel(message: "Sorry, We could not find the transcript for the provided student id.")
-                }
+                self.pdfData = data
             }
         } catch {
             DispatchQueue.main.async {
                 self.isFetchingData = false
+                self.pdfData = nil
+                self.alert = AlertModel(message: "Sorry, We could not find the transcript for the provided student id.")
             }
             print(error.localizedDescription)
         }

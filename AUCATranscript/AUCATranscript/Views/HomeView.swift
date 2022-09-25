@@ -43,7 +43,7 @@ struct HomeView: View {
 
                     Group {
                         if let pdfData = appSession.pdfData {
-                            PDFViewer(pdfData, singlePage: false)
+                            PDFViewer(pdfData)
                                 .overlay (
                                     Image(systemName: "square.and.arrow.up")
                                         .foregroundColor(.white)
@@ -158,6 +158,8 @@ struct HomeView: View {
     }
 
     private func findTranscript() {
+        guard enteredID.count == 5,
+              let _ = Int(enteredID) else { return }
         hideKeyboard()
 
         Task {

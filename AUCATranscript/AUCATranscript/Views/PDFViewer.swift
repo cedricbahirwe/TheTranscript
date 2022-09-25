@@ -9,28 +9,19 @@ import PDFKit
 import SwiftUI
 
 struct PDFViewer: UIViewRepresentable {
-    typealias UIViewType = PDFView
-
     let data: Data
-    let singlePage: Bool
 
-    init(_ data: Data, singlePage: Bool = false) {
+    init(_ data: Data) {
         self.data = data
-        self.singlePage = singlePage
     }
-
-    func makeUIView(context _: UIViewRepresentableContext<PDFViewer>) -> UIViewType {
-        // Create a `PDFView` and set its `PDFDocument`.
+    func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
         pdfView.document = PDFDocument(data: data)
         pdfView.autoScales = true
-        if singlePage {
-            pdfView.displayMode = .singlePage
-        }
         return pdfView
     }
 
-    func updateUIView(_ pdfView: UIViewType, context _: UIViewRepresentableContext<PDFViewer>) {
-        pdfView.document = PDFDocument(data: data)
+    func updateUIView(_ uiView: PDFView, context: Context) {
+        uiView.document = PDFDocument(data: data)
     }
 }
