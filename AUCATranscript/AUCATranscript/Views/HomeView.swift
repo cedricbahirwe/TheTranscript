@@ -58,11 +58,13 @@ struct HomeView: View {
                         }
                     }
                     .opacity(appSession.pdfData == nil || uiMode == .search ? 0 : 1)
-                    //                    .animation(.easeInOut, value: uiMode)
+
                     VStack {
                         HStack {
                             TextField("Enter your friend's student ID",
-                                      text: $enteredID.onChange(handleNewID))
+                                      text: $enteredID.onChange(cleanEnteredID))
+                            .colorMultiply(enteredID.isEmpty ? .gray : .white)
+                            .colorMultiply(enteredID.isEmpty ? .gray : .white)
                             .keyboardType(.decimalPad)
                             .padding(.horizontal, 15)
                             .padding(.vertical, 8)
@@ -123,8 +125,7 @@ private extension HomeView {
     private func loadTranscript() async {
         switch uiMode {
         case .display:
-            break
-//            await appSession.loadMyTranscript()
+            break;
         case .search:
             guard enteredID.count == 5,
                   let otherId = Int(enteredID) else { return }
@@ -157,8 +158,12 @@ private extension HomeView {
         }
     }
 
-    private func handleNewID(_ id: String) {
+    private func cleanEnteredID(_ id: String) {
+        let lettersRemoved = id.components(separatedBy: CharacterSet.letters).joined()
+        let spacesRemoved = lettersRemoved.components(separatedBy: .whitespacesAndNewlines).joined()
+        let symbolsRemoved = spacesRemoved.components(separatedBy: .symbols).joined()
 
+        self.enteredID = String(symbolsRemoved.prefix(5))
     }
 }
 
