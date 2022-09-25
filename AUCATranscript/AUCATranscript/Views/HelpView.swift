@@ -18,7 +18,7 @@ struct HelpView: View {
                     .font(.largeTitle.weight(.bold))
                     .padding(.vertical)
 
-                Text("The purpose of this application is to allow AUCA (Adventist University of Central Africa) students access their transcripts quickly and easily.\n\nEasing the process to check  their semester marks anytime, anywhere.\n\nThe transcript is shown as a PDF file with the ability to share with others or save it for later use.")
+                Text("The purpose of this application is to allow AUCA (Adventist University of Central Africa) students access their transcripts quickly and easily.\n\nEasing the process to check  their semesters grades anytime, anywhere.\n\nThe transcript is shown as a PDF file with the ability to share it with others or save it for later use.")
 
                 Text("\n\nFor privacy and security reasons, All information is always kept on your device.")
                     .foregroundColor(.green)

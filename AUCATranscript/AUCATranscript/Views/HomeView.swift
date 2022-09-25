@@ -212,6 +212,7 @@ private extension HomeView {
             }
 
             Spacer()
+            Spacer()
         }
     }
 }
