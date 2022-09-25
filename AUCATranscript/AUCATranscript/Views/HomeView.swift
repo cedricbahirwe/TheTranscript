@@ -110,11 +110,6 @@ struct HomeView: View {
         }
         .sheet(isPresented: $showHelpView, content: HelpView.init)
         .shareSheet(isPresented: $isPresentingShareSheet, items: [appSession.pdfData ?? []])
-        .onAppear {
-            Task {
-                await loadTranscript()
-            }
-        }
     }
 }
 
