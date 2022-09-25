@@ -9,15 +9,10 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var appSession: AppSession
-    @State private var userMode: AppMode = .normal
+    @State private var uiMode: UIMode = .search
     @State private var enteredID = ""
     @State private var isPresentingShareSheet = false
 
-
-    private var titleView: some View {
-        Text("AUCA Transcript")
-            .font(.system(size: 40, weight: .black, design: .rounded))
-    }
     var body: some View {
         ZStack {
             MainBackgroundView()
@@ -33,11 +28,16 @@ struct HomeView: View {
                             .frame(height: 100)
                             .mask(titleView)
                     )
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
                     .background(
                         Color.white.opacity(0.1)
                             .edgesIgnoringSafeArea(.all)
                             .cornerRadius(16)
                     )
+                    .clipShape(Capsule())
+                    .padding()
 
                 ZStack {
 
@@ -56,8 +56,8 @@ struct HomeView: View {
                                 )
                         }
                     }
-                    .opacity(appSession.pdfData == nil || userMode == .search ? 0 : 1)
-                    //                    .animation(.easeInOut, value: userMode)
+                    .opacity(appSession.pdfData == nil || uiMode == .search ? 0 : 1)
+                    //                    .animation(.easeInOut, value: uiMode)
                     VStack {
                         HStack {
                             TextField("Enter your friend's student ID",
@@ -77,6 +77,7 @@ struct HomeView: View {
                                     .clipShape(Circle())
                             }
                         }
+                        .frame(height: 50)
                         .background(Color.white.opacity(0.3))
                         .clipShape(Capsule())
                         .animation(.easeInOut, value: enteredID)
@@ -84,24 +85,24 @@ struct HomeView: View {
                         Text("It should be a 5 digits number")
                             .italic()
                     }
-                    .opacity(userMode == .search ? 1 : 0)
-                    .animation(.easeInOut, value: userMode)
+                    .opacity(uiMode == .search ? 1 : 0)
+                    .animation(.easeInOut, value: uiMode)
                     .padding(16)
                 }
                 .frame(maxHeight: .infinity)
 
                 Button(action: handleModeChange) {
                     Group {
-                        switch userMode {
+                        switch uiMode {
                         case .search:
                             HStack {
                                 Image(systemName: "house")
                                 Text("Go Home")
                             }
-                        case .normal:
+                        case .display:
                             HStack {
                                 Image(systemName: "magnifyingglass")
-                                Text("Search transcript for friend")
+                                Text("Search for a transcript")
                             }
                         }
                     }
@@ -117,7 +118,7 @@ struct HomeView: View {
         .alert(item: $appSession.alert) { alert in
             Alert(title: Text(alert.title),
                   message: Text(alert.message),
-                  dismissButton: .default(Text("Okay!"),
+                  dismissButton: .default(Text("Okay"),
                                           action: handleOkayAction)
             )
         }
@@ -128,15 +129,17 @@ struct HomeView: View {
             }
         }
     }
+}
 
-    private func handleOkayAction() {
-
-    }
+// MARK: - Functions
+private extension HomeView {
+    private func handleOkayAction() {}
 
     private func loadTranscript() async {
-        switch userMode {
-        case .normal:
-            await appSession.loadMyTranscript()
+        switch uiMode {
+        case .display:
+            break
+//            await appSession.loadMyTranscript()
         case .search:
             guard enteredID.count == 5,
                   let otherId = Int(enteredID) else { return }
@@ -154,7 +157,7 @@ struct HomeView: View {
 
     private func handleModeChange() {
         hideKeyboard()
-        userMode.toggle()
+        uiMode.toggle()
     }
 
     private func findTranscript() {
@@ -164,7 +167,7 @@ struct HomeView: View {
 
         Task {
             await loadTranscript()
-            userMode = .normal
+            uiMode = .display
             enteredID = ""
         }
     }
@@ -172,8 +175,18 @@ struct HomeView: View {
     private func handleNewID(_ id: String) {
 
     }
+}
 
-    private var progressView: some View {
+// MARK: - Views
+private extension HomeView {
+    var titleView: some View {
+        Text("AUCA Transcript")
+            .font(.system(size: 38, weight: .black, design: .rounded))
+            .lineLimit(1)
+            .minimumScaleFactor(0.9)
+    }
+
+    var progressView: some View {
         Group {
             if appSession.isFetchingData {
                 ZStack {
@@ -194,12 +207,13 @@ struct HomeView: View {
     }
 }
 
+// MARK: - Models
 extension HomeView {
-    enum AppMode {
-        case normal
+    enum UIMode {
+        case display
         case search
         mutating func toggle()  {
-            self = self == .normal ? .search : .normal
+            self = self == .display ? .search : .display
         }
     }
 }

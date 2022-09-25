@@ -16,7 +16,6 @@
 		CB2F6EB428DF4E480039A7E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB328DF4E480039A7E3 /* AppDelegate.swift */; };
 		CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB528DF4EE80039A7E3 /* SceneDelegate.swift */; };
 		CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB728DF59010039A7E3 /* ContentView.swift */; };
-		CB2F6EBA28DF593E0039A7E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB928DF593E0039A7E3 /* LoginView.swift */; };
 		CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */; };
 		CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */; };
 		CB2F6EC528DF5F120039A7E3 /* AppSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EC428DF5F120039A7E3 /* AppSessionManager.swift */; };
@@ -57,7 +56,6 @@
 		CB2F6EB328DF4E480039A7E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB2F6EB528DF4EE80039A7E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CB2F6EB728DF59010039A7E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CB2F6EB928DF593E0039A7E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBackgroundView.swift; sourceTree = "<group>"; };
 		CB2F6EC428DF5F120039A7E3 /* AppSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionManager.swift; sourceTree = "<group>"; };
@@ -161,7 +159,6 @@
 			children = (
 				CB2F6EB728DF59010039A7E3 /* ContentView.swift */,
 				CB2F6EB128DF4D3D0039A7E3 /* HomeView.swift */,
-				CB2F6EB928DF593E0039A7E3 /* LoginView.swift */,
 				CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */,
 				CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */,
 				CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */,
@@ -331,7 +328,6 @@
 				CB2F6EB228DF4D3D0039A7E3 /* HomeView.swift in Sources */,
 				CBC0896F28E0880900B6F685 /* AlertModel.swift in Sources */,
 				CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */,
-				CB2F6EBA28DF593E0039A7E3 /* LoginView.swift in Sources */,
 				CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */,
 				CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */,
 				CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */,

@@ -10,13 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var appSession: AppSession
     var body: some View {
-        if appSession.isLoggedIn {
-            HomeView()
-                .environmentObject(appSession)
-        } else {
-            LoginView()
-                .environmentObject(appSession)
-        }
+        HomeView()
+            .environmentObject(appSession)
     }
 }
 
