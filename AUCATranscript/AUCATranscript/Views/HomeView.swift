@@ -12,6 +12,7 @@ struct HomeView: View {
     @State private var uiMode: UIMode = .search
     @State private var enteredID = ""
     @State private var isPresentingShareSheet = false
+    @State private var showHelpView = false
 
     var body: some View {
         ZStack {
@@ -91,25 +92,8 @@ struct HomeView: View {
                 }
                 .frame(maxHeight: .infinity)
 
-                Button(action: handleModeChange) {
-                    Group {
-                        switch uiMode {
-                        case .search:
-                            HStack {
-                                Image(systemName: "house")
-                                Text("Go Home")
-                            }
-                        case .display:
-                            HStack {
-                                Image(systemName: "magnifyingglass")
-                                Text("Search for a transcript")
-                            }
-                        }
-                    }
-                    .padding()
-                    .background(Color.accentColor)
-                    .clipShape(Capsule())
-                }
+                bottomBarView
+                    .padding(.horizontal)
             }
 
             progressView
@@ -122,6 +106,7 @@ struct HomeView: View {
                                           action: handleOkayAction)
             )
         }
+        .sheet(isPresented: $showHelpView, content: HelpView.init)
         .shareSheet(isPresented: $isPresentingShareSheet, items: [appSession.pdfData ?? []])
         .onAppear {
             Task {
@@ -203,6 +188,30 @@ private extension HomeView {
                     }
                 }
             }
+        }
+    }
+
+    var bottomBarView: some View {
+        HStack {
+
+            Button("Help") {
+                showHelpView.toggle()
+            }
+            .padding()
+            .foregroundColor(.accentColor)
+            Spacer()
+            Button(action: handleModeChange) {
+                let isSearch = uiMode == .search
+                HStack {
+                    Image(systemName: isSearch ? "house" : "magnifyingglass")
+                    Text(isSearch ? "Go Home" : "Search for a transcript")
+                }
+                .padding()
+                .background(Color.accentColor)
+                .clipShape(Capsule())
+            }
+
+            Spacer()
         }
     }
 }
