@@ -16,12 +16,15 @@
 		CB2F6EB428DF4E480039A7E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB328DF4E480039A7E3 /* AppDelegate.swift */; };
 		CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB528DF4EE80039A7E3 /* SceneDelegate.swift */; };
 		CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB728DF59010039A7E3 /* ContentView.swift */; };
-		CB2F6EBA28DF593E0039A7E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB928DF593E0039A7E3 /* LoginView.swift */; };
 		CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */; };
 		CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */; };
 		CB2F6EC528DF5F120039A7E3 /* AppSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EC428DF5F120039A7E3 /* AppSessionManager.swift */; };
 		CB2F6EC728DF63150039A7E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB2F6EC628DF63150039A7E3 /* LaunchScreen.storyboard */; };
 		CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECA28DF66860039A7E3 /* Helper.swift */; };
+		CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */; };
+		CB2F6ECF28DFAB7B0039A7E3 /* PDFViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */; };
+		CB66FCE828E0F2D40003B842 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB66FCE728E0F2D40003B842 /* HelpView.swift */; };
+		CBC0896F28E0880900B6F685 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0896E28E0880900B6F685 /* AlertModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,13 +57,16 @@
 		CB2F6EB328DF4E480039A7E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB2F6EB528DF4EE80039A7E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CB2F6EB728DF59010039A7E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CB2F6EB928DF593E0039A7E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBackgroundView.swift; sourceTree = "<group>"; };
 		CB2F6EC428DF5F120039A7E3 /* AppSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionManager.swift; sourceTree = "<group>"; };
 		CB2F6EC628DF63150039A7E3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB2F6EC828DF63510039A7E3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		CB2F6ECA28DF66860039A7E3 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewer.swift; sourceTree = "<group>"; };
+		CB66FCE728E0F2D40003B842 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
+		CBC0896E28E0880900B6F685 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,9 +160,12 @@
 			isa = PBXGroup;
 			children = (
 				CB2F6EB728DF59010039A7E3 /* ContentView.swift */,
+				CB66FCE628E0F2CB0003B842 /* Custom */,
 				CB2F6EB128DF4D3D0039A7E3 /* HomeView.swift */,
-				CB2F6EB928DF593E0039A7E3 /* LoginView.swift */,
+				CB66FCE728E0F2D40003B842 /* HelpView.swift */,
 				CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */,
+				CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */,
+				CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -165,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */,
+				CBC0896E28E0880900B6F685 /* AlertModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -183,6 +193,13 @@
 				CB2F6ECA28DF66860039A7E3 /* Helper.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CB66FCE628E0F2CB0003B842 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,12 +333,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB2F6ECF28DFAB7B0039A7E3 /* PDFViewer.swift in Sources */,
+				CB66FCE828E0F2D40003B842 /* HelpView.swift in Sources */,
 				CB2F6EB428DF4E480039A7E3 /* AppDelegate.swift in Sources */,
 				CB2F6EC528DF5F120039A7E3 /* AppSessionManager.swift in Sources */,
 				CB2F6EB228DF4D3D0039A7E3 /* HomeView.swift in Sources */,
+				CBC0896F28E0880900B6F685 /* AlertModel.swift in Sources */,
 				CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */,
-				CB2F6EBA28DF593E0039A7E3 /* LoginView.swift in Sources */,
 				CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */,
+				CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */,
 				CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */,
 				CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */,
 				CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */,
@@ -411,7 +431,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -465,7 +485,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -487,11 +507,12 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AUCATranscript/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -518,11 +539,12 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = AUCATranscript/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -546,7 +568,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6V9B6LUW22;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.AUCATranscriptTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -566,7 +588,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6V9B6LUW22;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.AUCATranscriptTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -585,6 +607,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6V9B6LUW22;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.AUCATranscriptUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -603,6 +626,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6V9B6LUW22;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.AUCATranscriptUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
