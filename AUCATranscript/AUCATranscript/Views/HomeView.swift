@@ -55,9 +55,16 @@ struct HomeView: View {
                                         .padding(12)
                                     , alignment: .topTrailing
                                 )
+                        } else {
+                            Text("No Transcript to show yet😰\n Try searching for your Student ID")
+                                .font(.system(.title, design: .rounded))
+                                .fontWeight(.semibold)
+                                .multilineTextAlignment(.center)
+                                .opacity(0.5)
+
                         }
                     }
-                    .opacity(appSession.pdfData == nil || uiMode == .search ? 0 : 1)
+                    .opacity(uiMode == .search ? 0 : 1)
 
                     VStack {
                         HStack {
@@ -85,7 +92,7 @@ struct HomeView: View {
                         .clipShape(Capsule())
                         .animation(.easeInOut, value: enteredID)
 
-                        Text("It should be a 5 digits number")
+                        Text("It should be a 5-digits number")
                             .italic()
                     }
                     .opacity(uiMode == .search ? 1 : 0)
