@@ -68,7 +68,7 @@ struct HomeView: View {
 
                     VStack {
                         HStack {
-                            TextField("Enter your friend's student ID",
+                            TextField("Enter your a valid student ID",
                                       text: $enteredID.onChange(cleanEnteredID))
                             .colorMultiply(enteredID.isEmpty ? .gray : .white)
                             .colorMultiply(enteredID.isEmpty ? .gray : .white)
