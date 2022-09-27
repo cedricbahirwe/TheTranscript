@@ -1,10 +1,5 @@
 # AUCA-Transcript
 This app helps AUCA students to download their transcripts just using their ID
-![IMG_2263]()
-![IMG_2262]()
-![IMG_2261]()
-![IMG_2260]()
-
 
 Search View   | Result View
 --------------------- | ---------------------
