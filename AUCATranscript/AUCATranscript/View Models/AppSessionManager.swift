@@ -11,7 +11,7 @@ import PDFKit
 
 final class AppSession: ObservableObject {
     public static let shared = AppSession()
-    private let baseURL = ProcessInfo.processInfo.environment["BASE_URL"]!
+    private let baseURL = "http://154.68.94.26/Rapport/"
     @Published private(set) var isFetchingData = false
     @Published private(set) var pdfData: Data?
     @Published public var alert: AlertModel?
