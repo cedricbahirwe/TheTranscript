@@ -11,7 +11,7 @@ struct HomeView: View {
     @EnvironmentObject private var appSession: AppSession
     @State private var uiMode: UIMode = .search
     @State private var enteredID = ""
-    @State private var isPresentingShareSheet = false
+    @State private var showShareSheet = false
     @State private var showHelpView = false
 
     var body: some View {
@@ -116,7 +116,9 @@ struct HomeView: View {
             )
         }
         .sheet(isPresented: $showHelpView, content: HelpView.init)
-        .shareSheet(isPresented: $isPresentingShareSheet, items: [appSession.pdfData ?? []])
+        .sheet(isPresented: $showShareSheet) {
+            ShareSheet(activityItems: [appSession.pdfData ?? []])
+        }
     }
 }
 
@@ -140,7 +142,7 @@ private extension HomeView {
         guard let _ = appSession.pdfData else {
             return
         }
-        isPresentingShareSheet.toggle()
+        showShareSheet.toggle()
     }
 
     private func handleModeChange() {

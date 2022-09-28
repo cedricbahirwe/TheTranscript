@@ -24,6 +24,7 @@
 		CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */; };
 		CB2F6ECF28DFAB7B0039A7E3 /* PDFViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */; };
 		CB66FCE828E0F2D40003B842 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB66FCE728E0F2D40003B842 /* HelpView.swift */; };
+		CB85A81E28E4C01100A1F03D /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB85A81D28E4C01100A1F03D /* ShareSheetView.swift */; };
 		CBC0896F28E0880900B6F685 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0896E28E0880900B6F685 /* AlertModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +67,7 @@
 		CB2F6ECC28DFA42F0039A7E3 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewer.swift; sourceTree = "<group>"; };
 		CB66FCE728E0F2D40003B842 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
+		CB85A81D28E4C01100A1F03D /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
 		CBC0896E28E0880900B6F685 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -198,6 +200,7 @@
 		CB66FCE628E0F2CB0003B842 /* Custom */ = {
 			isa = PBXGroup;
 			children = (
+				CB85A81D28E4C01100A1F03D /* ShareSheetView.swift */,
 			);
 			path = Custom;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				CB2F6EC528DF5F120039A7E3 /* AppSessionManager.swift in Sources */,
 				CB2F6EB228DF4D3D0039A7E3 /* HomeView.swift in Sources */,
 				CBC0896F28E0880900B6F685 /* AlertModel.swift in Sources */,
+				CB85A81E28E4C01100A1F03D /* ShareSheetView.swift in Sources */,
 				CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */,
 				CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */,
 				CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */,
