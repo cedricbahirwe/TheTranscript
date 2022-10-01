@@ -22,7 +22,7 @@ struct AuthenticationView: View {
                         .foregroundColor(.white)
 
                     TextField("",
-                              text: $studentID)
+                              text: $studentID.onChange(cleanEnteredID))
                     .keyboardType(.decimalPad)
                     .colorMultiply(.blue)
                     .colorMultiply(.blue)
@@ -67,6 +67,14 @@ struct AuthenticationView: View {
             .cornerRadius(15)
             .padding(.horizontal, 20)
         }
+    }
+
+    private func cleanEnteredID(_ id: String) {
+        let lettersRemoved = id.components(separatedBy: CharacterSet.letters).joined()
+        let spacesRemoved = lettersRemoved.components(separatedBy: .whitespacesAndNewlines).joined()
+        let symbolsRemoved = spacesRemoved.components(separatedBy: .symbols).joined()
+
+        self.studentID = String(symbolsRemoved.prefix(5))
     }
 }
 

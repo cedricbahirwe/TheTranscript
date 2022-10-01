@@ -67,19 +67,22 @@ struct HomeView: View {
                     .opacity(uiMode == .search ? 0 : 1)
 
                     VStack {
-                        HStack {
-                            TextField("Enter your a valid student ID",
+                        Text("Enter your a valid AUCA Student ID")
+                            .font(.headline)
+                            .foregroundColor(.white)
+
+                        HStack(spacing: 1) {
+                            TextField("",
                                       text: $enteredID.onChange(cleanEnteredID))
                             .colorMultiply(enteredID.isEmpty ? .gray : .white)
                             .colorMultiply(enteredID.isEmpty ? .gray : .white)
                             .keyboardType(.decimalPad)
                             .padding(.horizontal, 15)
                             .padding(.vertical, 8)
-                            .frame(minWidth: 100)
+                            .frame(maxWidth: 250)
                             .font(.system(size: enteredID.isEmpty ? 16 : 40,
                                           weight: .black,
                                           design: .rounded))
-
                             Button(action: findTranscript) {
                                 Image(systemName: "magnifyingglass")
                                     .padding()
@@ -242,6 +245,7 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(AppSession.shared)
+//            .previewDevice("iPad Pro (12.9-inch) (3rd generation)")
     }
 }
 #endif
