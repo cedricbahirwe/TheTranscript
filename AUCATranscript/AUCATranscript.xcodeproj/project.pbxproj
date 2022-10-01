@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB2D3A1328E8E51200755AB6 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2D3A1228E8E51200755AB6 /* AuthenticationView.swift */; };
 		CB2F6E8C28DF4CA50039A7E3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB2F6E8B28DF4CA50039A7E3 /* Assets.xcassets */; };
 		CB2F6E8F28DF4CA50039A7E3 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB2F6E8E28DF4CA50039A7E3 /* Preview Assets.xcassets */; };
 		CB2F6E9928DF4CA50039A7E3 /* AUCATranscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6E9828DF4CA50039A7E3 /* AUCATranscriptTests.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB2D3A1228E8E51200755AB6 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		CB2F6E8428DF4CA30039A7E3 /* AUCATranscript.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AUCATranscript.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB2F6E8B28DF4CA50039A7E3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB2F6E8E28DF4CA50039A7E3 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 			isa = PBXGroup;
 			children = (
 				CB2F6EB728DF59010039A7E3 /* ContentView.swift */,
+				CB2D3A1228E8E51200755AB6 /* AuthenticationView.swift */,
 				CB66FCE628E0F2CB0003B842 /* Custom */,
 				CB2F6EB128DF4D3D0039A7E3 /* HomeView.swift */,
 				CB66FCE728E0F2D40003B842 /* HelpView.swift */,
@@ -346,6 +349,7 @@
 				CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */,
 				CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */,
 				CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */,
+				CB2D3A1328E8E51200755AB6 /* AuthenticationView.swift in Sources */,
 				CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */,
 				CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */,
 				CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */,
