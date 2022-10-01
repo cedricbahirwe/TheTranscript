@@ -8,15 +8,22 @@
 import Foundation
 import Combine
 import PDFKit
+import SwiftUI
 
 final class AppSession: ObservableObject {
     public static let shared = AppSession()
+
     private let baseURL = "http://154.68.94.26/Rapport/"
     @Published private(set) var isFetchingData = false
+    @Published private(set) var isLoggedIn: Bool
     @Published private(set) var pdfData: Data?
-    @Published public var alert: AlertModel?
 
+    @Published public var alert: AlertModel?
     private var cancellables = Set<AnyCancellable>()
+
+    init() {
+        self.isLoggedIn = UserDefaults.standard.bool(forKey: Keys.isLoggedIn)
+    }
 
     private func getFullURL(_ studentId: Int) -> URL? {
         let urlString = baseURL.appending(String(studentId)).appending(".pdf")
@@ -42,5 +49,30 @@ final class AppSession: ObservableObject {
             }
             print(error.localizedDescription)
         }
+    }
+}
+
+// MARK: - AppSession User State
+extension AppSession {
+    public func setLogginState(_ state: Bool) {
+        UserDefaults.standard.set(state, forKey: Keys.isLoggedIn)
+        self.isLoggedIn = state
+    }
+    public func isPresentingLogin() -> Binding<Bool> {
+        Binding(get: {
+            self.isLoggedIn == false
+        }, set: { newValue in
+            DispatchQueue.main.async {
+                self.isLoggedIn = !newValue
+            }
+        })
+    }
+}
+
+
+// MARK: - Local Keys
+extension AppSession {
+    enum Keys {
+        static let isLoggedIn =  "app.session.isLoggedIn"
     }
 }

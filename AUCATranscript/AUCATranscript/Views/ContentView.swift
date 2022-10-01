@@ -10,8 +10,26 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var appSession: AppSession
     var body: some View {
+        ZStack {
+            if #available(iOS 14.0, *) {
+                homeView
+                    .fullScreenCover(isPresented: appSession.isPresentingLogin()) {
+                        AuthenticationView()
+                    }
+            } else {
+                ZStack {
+                    homeView
+                    if !appSession.isLoggedIn {
+                        AuthenticationView()
+                    }
+                }
+            }
+        }
+        .environmentObject(appSession)
+    }
+
+    private var homeView: some View {
         HomeView()
-            .environmentObject(appSession)
             .preferredColorScheme(.light)
     }
 }

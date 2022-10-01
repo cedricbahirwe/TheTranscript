@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AuthenticationView: View {
+    @EnvironmentObject private var appSession: AppSession
     @State private var studentID = ""
     @State private var studentIDPictureData: Data?
 
@@ -48,7 +49,6 @@ struct AuthenticationView: View {
                             .foregroundColor(.white)
                             .background(Color.accentColor)
                             .clipShape(Circle())
-                            .multilineTextAlignment(.leading)
                     }
 
                     Button(action: {}) {
@@ -57,9 +57,25 @@ struct AuthenticationView: View {
                             .foregroundColor(.white)
                             .background(Color.accentColor)
                             .clipShape(Circle())
-                            .multilineTextAlignment(.leading)
                     }
                 }
+
+                Button(action: {
+                    appSession.setLogginState(true)
+                }) {
+                    HStack {
+                        Image(systemName: "checkmark.circle.fill")
+                            .imageScale(.large)
+                            .foregroundColor(.green)
+                        Text("Complete").bold()
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .foregroundColor(.white)
+                    .background(Color.accentColor)
+                    .clipShape(Capsule())
+                }
+
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding()
@@ -81,5 +97,6 @@ struct AuthenticationView: View {
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
         AuthenticationView()
+            .environmentObject(AppSession.shared)
     }
 }
