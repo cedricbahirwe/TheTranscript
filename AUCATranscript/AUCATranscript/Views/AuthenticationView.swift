@@ -11,10 +11,16 @@ struct AuthenticationView: View {
     @EnvironmentObject private var appSession: AppSession
     @State private var studentID = ""
     @State private var studentIDPictureData: Data?
+    @State private var isShowingScannerSheet = false
+    @State private var notMatchFound = false
+    @State private var isValidCard = false
 
     var body: some View {
         ZStack {
             MainBackgroundView()
+                .onTapGesture {
+                    hideKeyboard()
+                }
 
             VStack(alignment: .leading, spacing: 15) {
                 Group {
@@ -22,17 +28,27 @@ struct AuthenticationView: View {
                         .bold()
                         .foregroundColor(.white)
 
-                    TextField("",
-                              text: $studentID.onChange(cleanEnteredID))
-                    .keyboardType(.decimalPad)
-                    .font(.body.weight(.semibold))
-                    .foregroundColor(.white)
-                    .padding(10)
-                    .frame(width: 150)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 12)
-                            .stroke(Color.white, lineWidth: 1.5)
-                    )
+                    HStack {
+                        TextField("",
+                                  text: $studentID.onChange(cleanEnteredID))
+                        .keyboardType(.decimalPad)
+                        .font(.body.weight(.semibold))
+                        .foregroundColor(.white)
+                        .padding(10)
+                        .frame(width: 150)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.white, lineWidth: 1.5)
+                        )
+
+                        if validatedID() == nil {
+                            Image(systemName: "checkmark")
+                                .padding(8)
+                                .foregroundColor(.white)
+                                .background(Color.green)
+                                .clipShape(Circle())
+                        }
+                    }
                 }
 
                 Divider()
@@ -42,20 +58,13 @@ struct AuthenticationView: View {
                     Text("Upload your student ID card picture")
                         .bold()
                         .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                    Button(action: {}) {
-                        Image(systemName: "camera")
-                            .padding()
+                    Button(action: openCamera) {
+                        Image(systemName: isValidCard ? "checkmark" : "camera")
+                            .padding(isValidCard ? 8 : 16)
                             .foregroundColor(.white)
-                            .background(Color.accentColor)
-                            .clipShape(Circle())
-                    }
-
-                    Button(action: {}) {
-                        Image(systemName: "photo.on.rectangle")
-                            .padding()
-                            .foregroundColor(.white)
-                            .background(Color.accentColor)
+                            .background(isValidCard ? Color.green : .accentColor)
                             .clipShape(Circle())
                     }
                 }
@@ -73,7 +82,7 @@ struct AuthenticationView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
-                    .background(validatedID() == nil ? Color.gray : Color.accentColor)
+                    .background(validatedID() == nil || !isValidCard ? Color.gray : Color.accentColor)
                     .clipShape(Capsule())
                 }
 
@@ -84,9 +93,46 @@ struct AuthenticationView: View {
             .cornerRadius(15)
             .padding(.horizontal, 20)
         }
+        .alert(isPresented: $notMatchFound) {
+            Alert(title: Text("Student Card Validation"),
+                  message: Text("No match was found.\nPlease make sure to enter a valid Student ID and the Student Card should be clear and visible."),
+                  dismissButton: .default(Text("Okay"))
+            )
+        }
+        .sheet(isPresented: $isShowingScannerSheet) {
+            makeScannerView()
+                .edgesIgnoringSafeArea(.all)
+        }
     }
 
-    private func cleanEnteredID(_ id: String) {
+}
+
+// MARK: - Views
+extension AuthenticationView {
+    private func makeScannerView() -> ScannerView {
+        ScannerView(completion: { textPerPage in
+            self.isShowingScannerSheet = false
+            DispatchQueue.main.async {
+                if let scannedText = textPerPage?.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines) {
+                    print("The content is", scannedText)
+                    self.isValidCard = appSession.validateStudentCardScan(scannedText, studentID)
+                    if self.isValidCard == false {
+                        self.notMatchFound = true
+                    }
+                }
+            }
+
+        })
+    }
+}
+
+private extension AuthenticationView {
+    func openCamera() {
+        hideKeyboard()
+        isShowingScannerSheet = true
+    }
+
+    func cleanEnteredID(_ id: String) {
         let lettersRemoved = id.components(separatedBy: CharacterSet.letters).joined()
         let spacesRemoved = lettersRemoved.components(separatedBy: .whitespacesAndNewlines).joined()
         let symbolsRemoved = spacesRemoved.components(separatedBy: .symbols).joined()
@@ -94,7 +140,7 @@ struct AuthenticationView: View {
         self.studentID = String(symbolsRemoved.prefix(5))
     }
 
-    private func validatedID() -> Int? {
+    func validatedID() -> Int? {
         guard studentID.count == 5 else { return nil }
         return Int(studentID)
     }

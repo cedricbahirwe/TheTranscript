@@ -23,7 +23,7 @@ struct SettingsView: View {
 
                     Text("The purpose of this application is to allow AUCA (Adventist University of Central Africa) students access their transcripts quickly and easily.\n\nEasing the process to check  their semesters grades anytime, anywhere.\n\nThe transcript is shown as a PDF file with the ability to share it with others or save it for later use.")
 
-                    Text("\n\nFor privacy and security reasons, All information is always kept on your device.")
+                    Text("\nFor privacy and security reasons, All information is always kept on your device.\n")
                         .foregroundColor(.green)
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -52,7 +52,6 @@ struct SettingsView: View {
                                     .clipShape(Capsule())
                             }
                         }
-
                     }
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -73,17 +72,18 @@ struct SettingsView: View {
                             .clipShape(Capsule())
                     }
                     .padding(.vertical)
-
                 }
                 .foregroundColor(.white)
-                .padding(25)
+                .padding(20)
             }
         }
     }
 }
 
+#if DEBUG
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
     }
 }
+#endif

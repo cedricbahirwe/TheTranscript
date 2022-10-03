@@ -72,6 +72,10 @@ final class AppSession: ObservableObject {
 
 // MARK: - AppSession User State
 extension AppSession {
+    public func validateStudentCardScan(_ scannedText: String, _ studentID: String) -> Bool {
+        scannedText.contains(studentID)
+    }
+
     public func setLogginState(_ state: Bool, _ studentId: Int) {
         let newDate = Date()
         UserDefaults.standard.set(state, forKey: Keys.isLoggedIn)
@@ -83,12 +87,12 @@ extension AppSession {
         }
     }
 
-    public func saveTranscript(_ data: Data) {
+    private func saveTranscript(_ data: Data) {
         UserDefaults.standard.set(data, forKey: Keys.transcriptData)
         self.transcriptData = data
     }
 
-    public func removeTranscript() {
+    private func removeTranscript() {
         UserDefaults.standard.set(nil, forKey: Keys.transcriptData)
         self.transcriptData = nil
     }
