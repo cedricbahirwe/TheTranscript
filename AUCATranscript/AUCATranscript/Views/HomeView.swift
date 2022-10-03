@@ -121,6 +121,7 @@ private extension HomeView {
     private func loadTranscript() async {
         switch uiMode {
         case .display:
+            appSession.clearSession()
             break;
         case .search:
             guard enteredID.count == 5,

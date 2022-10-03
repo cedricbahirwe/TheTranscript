@@ -55,7 +55,7 @@ struct AuthenticationView: View {
                     .background(Color.black)
 
                 HStack {
-                    Text("Upload your student ID card picture")
+                    Text("Scan your AUCA Student Card")
                         .bold()
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity, alignment: .leading)
