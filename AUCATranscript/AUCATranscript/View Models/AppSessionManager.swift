@@ -17,12 +17,16 @@ final class AppSession: ObservableObject {
     @Published private(set) var isFetchingData = false
     @Published private(set) var isLoggedIn: Bool
     @Published private(set) var pdfData: Data?
+    private var sessionID: Int?
+    private var sessionDate: Date?
 
     @Published public var alert: AlertModel?
     private var cancellables = Set<AnyCancellable>()
 
     init() {
         self.isLoggedIn = UserDefaults.standard.bool(forKey: Keys.isLoggedIn)
+        self.sessionID = UserDefaults.standard.integer(forKey: Keys.sessionID)
+        self.sessionDate = UserDefaults.standard.value(forKey: Keys.sessionDate) as? Date
     }
 
     private func getFullURL(_ studentId: Int) -> URL? {
@@ -54,10 +58,27 @@ final class AppSession: ObservableObject {
 
 // MARK: - AppSession User State
 extension AppSession {
-    public func setLogginState(_ state: Bool) {
+    public func setLogginState(_ state: Bool, _ studentId: Int) {
+        let newDate = Date()
         UserDefaults.standard.set(state, forKey: Keys.isLoggedIn)
-        self.isLoggedIn = state
+        UserDefaults.standard.set(studentId, forKey: Keys.sessionID)
+        UserDefaults.standard.set(newDate, forKey: Keys.sessionDate)
+        setStates(state, studentId, newDate)
     }
+
+    public func clearSession() {
+        UserDefaults.standard.set(false, forKey: Keys.isLoggedIn)
+        UserDefaults.standard.removeObject(forKey: Keys.sessionID)
+        UserDefaults.standard.removeObject(forKey: Keys.sessionDate)
+        setStates(false, nil, nil)
+    }
+
+    private func setStates(_ loggedIn: Bool, _ studentId: Int?, _ sessionDate: Date?) {
+        self.isLoggedIn = loggedIn
+        self.sessionID = studentId
+        self.sessionDate = sessionDate
+    }
+
     public func isPresentingLogin() -> Binding<Bool> {
         Binding(get: {
             self.isLoggedIn == false
@@ -69,10 +90,11 @@ extension AppSession {
     }
 }
 
-
 // MARK: - Local Keys
 extension AppSession {
     enum Keys {
         static let isLoggedIn =  "app.session.isLoggedIn"
+        static let sessionID =  "app.session.sessionID"
+        static let sessionDate =  "app.session.sessionDate"
     }
 }

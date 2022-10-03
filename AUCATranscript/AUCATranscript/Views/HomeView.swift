@@ -12,7 +12,7 @@ struct HomeView: View {
     @State private var uiMode: UIMode = .search
     @State private var enteredID = ""
     @State private var showShareSheet = false
-    @State private var showHelpView = false
+    @State private var showSettingsView = false
 
     var body: some View {
         ZStack {
@@ -118,7 +118,7 @@ struct HomeView: View {
                                           action: handleOkayAction)
             )
         }
-        .sheet(isPresented: $showHelpView, content: HelpView.init)
+        .sheet(isPresented: $showSettingsView, content: SettingsView.init)
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(activityItems: [appSession.pdfData ?? []])
         }
@@ -206,8 +206,11 @@ private extension HomeView {
     var bottomBarView: some View {
         HStack {
 
-            Button("Help") {
-                showHelpView.toggle()
+            Button {
+                showSettingsView.toggle()
+            } label: {
+                Image(systemName: "gear")
+                    .imageScale(.large)
             }
             .padding()
             .foregroundColor(.accentColor)

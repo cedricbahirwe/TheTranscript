@@ -61,7 +61,8 @@ struct AuthenticationView: View {
                 }
 
                 Button(action: {
-                    appSession.setLogginState(true)
+                    guard let id = validatedID() else { return }
+                    appSession.setLogginState(true, id)
                 }) {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
@@ -72,7 +73,7 @@ struct AuthenticationView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
-                    .background(Color.accentColor)
+                    .background(validatedID() == nil ? Color.gray : Color.accentColor)
                     .clipShape(Capsule())
                 }
 
@@ -91,6 +92,11 @@ struct AuthenticationView: View {
         let symbolsRemoved = spacesRemoved.components(separatedBy: .symbols).joined()
 
         self.studentID = String(symbolsRemoved.prefix(5))
+    }
+
+    private func validatedID() -> Int? {
+        guard studentID.count == 5 else { return nil }
+        return Int(studentID)
     }
 }
 
