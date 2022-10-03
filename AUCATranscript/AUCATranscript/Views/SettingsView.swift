@@ -10,6 +10,7 @@ import SwiftUI
 struct SettingsView: View {
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var appSession: AppSession
+    
     var body: some View {
         ZStack {
             MainBackgroundView()
@@ -38,7 +39,10 @@ struct SettingsView: View {
                                 .opacity(0.8)
                                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                            Button(action: appSession.clearSession) {
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                                appSession.clearSession()
+                            }) {
                                 Text("Delete now")
                                     .font(.system(.body, design: .rounded))
                                     .bold()

@@ -25,8 +25,8 @@ struct AuthenticationView: View {
                     TextField("",
                               text: $studentID.onChange(cleanEnteredID))
                     .keyboardType(.decimalPad)
-                    .colorMultiply(.blue)
-                    .colorMultiply(.blue)
+                    .font(.body.weight(.semibold))
+                    .foregroundColor(.white)
                     .padding(10)
                     .frame(width: 150)
                     .overlay(

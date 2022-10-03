@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var appSession: AppSession
-    @State private var uiMode: UIMode = .search
+    @State private var uiMode: UIMode = .display
     @State private var enteredID = ""
     @State private var showShareSheet = false
     @State private var showSettingsView = false
@@ -45,16 +45,8 @@ struct HomeView: View {
                     Group {
                         if let pdfData = appSession.pdfData {
                             PDFViewer(pdfData)
-                                .overlay (
-                                    Image(systemName: "square.and.arrow.up")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .background(Color.accentColor)
-                                        .clipShape(Circle())
-                                        .onTapGesture(perform: sharePDF)
-                                        .padding(12)
-                                    , alignment: .topTrailing
-                                )
+                                .overlay(shareBtn, alignment: .topTrailing)
+                                .overlay(settingsBtn, alignment: .bottomLeading)
                         } else {
                             Text("No Transcript to show yet😰\n Try searching for your Student ID")
                                 .font(.system(.title, design: .rounded))
@@ -103,9 +95,6 @@ struct HomeView: View {
                     .padding(16)
                 }
                 .frame(maxHeight: .infinity)
-
-                bottomBarView
-                    .padding(.horizontal)
             }
 
             progressView
@@ -125,7 +114,7 @@ struct HomeView: View {
     }
 }
 
-// MARK: - Functions
+// MARK: - Helper Methods
 private extension HomeView {
     private func handleOkayAction() {}
 
@@ -203,32 +192,41 @@ private extension HomeView {
         }
     }
 
-    var bottomBarView: some View {
-        HStack {
-
-            Button {
-                showSettingsView.toggle()
-            } label: {
-                Image(systemName: "gear")
-                    .imageScale(.large)
+    var searchToggleBtn: some View {
+        Button(action: handleModeChange) {
+            let isSearch = uiMode == .search
+            HStack {
+                Image(systemName: isSearch ? "house" : "magnifyingglass")
+                Text(isSearch ? "Go Home" : "Search for a transcript")
             }
             .padding()
-            .foregroundColor(.accentColor)
-            Spacer()
-            Button(action: handleModeChange) {
-                let isSearch = uiMode == .search
-                HStack {
-                    Image(systemName: isSearch ? "house" : "magnifyingglass")
-                    Text(isSearch ? "Go Home" : "Search for a transcript")
-                }
-                .padding()
-                .background(Color.accentColor)
-                .clipShape(Capsule())
-            }
-
-            Spacer()
-            Spacer()
+            .background(Color.accentColor)
+            .clipShape(Capsule())
         }
+    }
+
+    var settingsBtn: some View {
+        Button {
+            showSettingsView.toggle()
+        } label: {
+            Image(systemName: "gear")
+                .imageScale(.large)
+                .foregroundColor(.white)
+                .padding(5)
+                .background(Color.accentColor)
+                .clipShape(Circle())
+        }
+            .padding()
+    }
+
+    var shareBtn: some View {
+        Image(systemName: "square.and.arrow.up")
+            .foregroundColor(.white)
+            .padding(10)
+            .background(Color.accentColor)
+            .clipShape(Circle())
+            .onTapGesture(perform: sharePDF)
+            .padding(12)
     }
 }
 
