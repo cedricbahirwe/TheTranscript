@@ -116,12 +116,13 @@ struct HomeView: View {
 
 // MARK: - Helper Methods
 private extension HomeView {
-    private func handleOkayAction() {}
+    private func handleOkayAction() {
+        appSession.clearSession()
+    }
 
     private func loadTranscript() async {
         switch uiMode {
         case .display:
-            appSession.clearSession()
             break;
         case .search:
             guard enteredID.count == 5,
