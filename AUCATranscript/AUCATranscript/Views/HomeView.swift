@@ -9,10 +9,10 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var appSession: AppSession
-    @State private var uiMode: UIMode = .search
+    @State private var uiMode: UIMode = .display
     @State private var enteredID = ""
     @State private var showShareSheet = false
-    @State private var showHelpView = false
+    @State private var showSettingsView = false
 
     var body: some View {
         ZStack {
@@ -45,16 +45,8 @@ struct HomeView: View {
                     Group {
                         if let pdfData = appSession.pdfData {
                             PDFViewer(pdfData)
-                                .overlay (
-                                    Image(systemName: "square.and.arrow.up")
-                                        .foregroundColor(.white)
-                                        .padding(10)
-                                        .background(Color.accentColor)
-                                        .clipShape(Circle())
-                                        .onTapGesture(perform: sharePDF)
-                                        .padding(12)
-                                    , alignment: .topTrailing
-                                )
+                                .overlay(shareBtn, alignment: .topTrailing)
+                                .overlay(settingsBtn, alignment: .bottomLeading)
                         } else {
                             Text("No Transcript to show yet😰\n Try searching for your Student ID")
                                 .font(.system(.title, design: .rounded))
@@ -67,19 +59,22 @@ struct HomeView: View {
                     .opacity(uiMode == .search ? 0 : 1)
 
                     VStack {
-                        HStack {
-                            TextField("Enter your a valid student ID",
+                        Text("Enter your a valid AUCA Student ID")
+                            .font(.headline)
+                            .foregroundColor(.white)
+
+                        HStack(spacing: 1) {
+                            TextField("",
                                       text: $enteredID.onChange(cleanEnteredID))
                             .colorMultiply(enteredID.isEmpty ? .gray : .white)
                             .colorMultiply(enteredID.isEmpty ? .gray : .white)
                             .keyboardType(.decimalPad)
                             .padding(.horizontal, 15)
                             .padding(.vertical, 8)
-                            .frame(minWidth: 100)
+                            .frame(maxWidth: 250)
                             .font(.system(size: enteredID.isEmpty ? 16 : 40,
                                           weight: .black,
                                           design: .rounded))
-
                             Button(action: findTranscript) {
                                 Image(systemName: "magnifyingglass")
                                     .padding()
@@ -100,9 +95,6 @@ struct HomeView: View {
                     .padding(16)
                 }
                 .frame(maxHeight: .infinity)
-
-                bottomBarView
-                    .padding(.horizontal)
             }
 
             progressView
@@ -115,20 +107,21 @@ struct HomeView: View {
                                           action: handleOkayAction)
             )
         }
-        .sheet(isPresented: $showHelpView, content: HelpView.init)
+        .sheet(isPresented: $showSettingsView, content: SettingsView.init)
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(activityItems: [appSession.pdfData ?? []])
         }
     }
 }
 
-// MARK: - Functions
+// MARK: - Helper Methods
 private extension HomeView {
     private func handleOkayAction() {}
 
     private func loadTranscript() async {
         switch uiMode {
         case .display:
+            appSession.clearSession()
             break;
         case .search:
             guard enteredID.count == 5,
@@ -200,29 +193,41 @@ private extension HomeView {
         }
     }
 
-    var bottomBarView: some View {
-        HStack {
-
-            Button("Help") {
-                showHelpView.toggle()
+    var searchToggleBtn: some View {
+        Button(action: handleModeChange) {
+            let isSearch = uiMode == .search
+            HStack {
+                Image(systemName: isSearch ? "house" : "magnifyingglass")
+                Text(isSearch ? "Go Home" : "Search for a transcript")
             }
             .padding()
-            .foregroundColor(.accentColor)
-            Spacer()
-            Button(action: handleModeChange) {
-                let isSearch = uiMode == .search
-                HStack {
-                    Image(systemName: isSearch ? "house" : "magnifyingglass")
-                    Text(isSearch ? "Go Home" : "Search for a transcript")
-                }
-                .padding()
-                .background(Color.accentColor)
-                .clipShape(Capsule())
-            }
-
-            Spacer()
-            Spacer()
+            .background(Color.accentColor)
+            .clipShape(Capsule())
         }
+    }
+
+    var settingsBtn: some View {
+        Button {
+            showSettingsView.toggle()
+        } label: {
+            Image(systemName: "gear")
+                .imageScale(.large)
+                .foregroundColor(.white)
+                .padding(5)
+                .background(Color.accentColor)
+                .clipShape(Circle())
+        }
+            .padding()
+    }
+
+    var shareBtn: some View {
+        Image(systemName: "square.and.arrow.up")
+            .foregroundColor(.white)
+            .padding(10)
+            .background(Color.accentColor)
+            .clipShape(Circle())
+            .onTapGesture(perform: sharePDF)
+            .padding(12)
     }
 }
 
@@ -242,6 +247,7 @@ struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView()
             .environmentObject(AppSession.shared)
+//            .previewDevice("iPad Pro (12.9-inch) (3rd generation)")
     }
 }
 #endif
