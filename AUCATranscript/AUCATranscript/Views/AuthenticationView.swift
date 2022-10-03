@@ -41,7 +41,7 @@ struct AuthenticationView: View {
                                 .stroke(Color.white, lineWidth: 1.5)
                         )
 
-                        if validatedID() == nil {
+                        if validatedID() != nil {
                             Image(systemName: "checkmark")
                                 .padding(8)
                                 .foregroundColor(.white)
