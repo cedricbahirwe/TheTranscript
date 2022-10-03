@@ -13,7 +13,7 @@ struct AuthenticationView: View {
     @State private var studentIDPictureData: Data?
     @State private var isShowingScannerSheet = false
     @State private var notMatchFound = false
-    @State private var isValidCard = true
+    @State private var isValidCard = false
 
     var body: some View {
         ZStack {
