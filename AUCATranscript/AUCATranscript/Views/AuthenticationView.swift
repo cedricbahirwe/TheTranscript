@@ -87,7 +87,7 @@ struct AuthenticationView: View {
                 }
 
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .frame(maxWidth: CGFloat.infinity > 500 ? 400 : .infinity, alignment: .leading)
             .padding()
             .background(Color.gray.opacity(0.2))
             .cornerRadius(15)

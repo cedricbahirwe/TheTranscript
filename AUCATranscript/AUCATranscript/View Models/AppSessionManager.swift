@@ -98,6 +98,7 @@ extension AppSession {
     }
 
     public func clearSession() {
+        self.pdfData = nil
         UserDefaults.standard.set(false, forKey: Keys.isLoggedIn)
         UserDefaults.standard.removeObject(forKey: Keys.sessionID)
         UserDefaults.standard.removeObject(forKey: Keys.sessionDate)
