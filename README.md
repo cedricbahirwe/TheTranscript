@@ -1,5 +1,10 @@
 # AUCA-Transcript
-This app helps AUCA students to download their transcripts just using their ID
+**Problem Solving:**  This app allow AUCA students to get access to their transcripts using their ID in a matter of seconds.
+
+
+### Takeaways
+
+- PDFKIt in SwiftUI
 
 Search View   | Result View
 --------------------- | ---------------------
