@@ -17,7 +17,6 @@
 		CB2F6EB428DF4E480039A7E3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB328DF4E480039A7E3 /* AppDelegate.swift */; };
 		CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB528DF4EE80039A7E3 /* SceneDelegate.swift */; };
 		CB2F6EB828DF59010039A7E3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EB728DF59010039A7E3 /* ContentView.swift */; };
-		CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */; };
 		CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */; };
 		CB2F6EC528DF5F120039A7E3 /* AppSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6EC428DF5F120039A7E3 /* AppSessionManager.swift */; };
 		CB2F6EC728DF63150039A7E3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB2F6EC628DF63150039A7E3 /* LaunchScreen.storyboard */; };
@@ -62,7 +61,6 @@
 		CB2F6EB328DF4E480039A7E3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB2F6EB528DF4EE80039A7E3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		CB2F6EB728DF59010039A7E3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
 		CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBackgroundView.swift; sourceTree = "<group>"; };
 		CB2F6EC428DF5F120039A7E3 /* AppSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSessionManager.swift; sourceTree = "<group>"; };
 		CB2F6EC628DF63150039A7E3 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -167,9 +165,9 @@
 		CB2F6EBB28DF59410039A7E3 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				CB66FCE628E0F2CB0003B842 /* Custom */,
 				CB2F6EB728DF59010039A7E3 /* ContentView.swift */,
 				CB2D3A1228E8E51200755AB6 /* AuthenticationView.swift */,
-				CB66FCE628E0F2CB0003B842 /* Custom */,
 				CB2F6EB128DF4D3D0039A7E3 /* HomeView.swift */,
 				CBFD39F228EAEA4A00263232 /* SettingsView.swift */,
 				CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */,
@@ -183,7 +181,6 @@
 		CB2F6EBC28DF5A5C0039A7E3 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				CB2F6EBD28DF5A6E0039A7E3 /* UserModel.swift */,
 				CBC0896E28E0880900B6F685 /* AlertModel.swift */,
 			);
 			path = Models;
@@ -366,7 +363,6 @@
 				CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */,
 				CB2F6ECD28DFA42F0039A7E3 /* ActivityIndicator.swift in Sources */,
 				CB2D3A1328E8E51200755AB6 /* AuthenticationView.swift in Sources */,
-				CB2F6EBE28DF5A6E0039A7E3 /* UserModel.swift in Sources */,
 				CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */,
 				CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */,
 			);

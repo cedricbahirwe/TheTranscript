@@ -13,7 +13,7 @@ struct ContentView: View {
         ZStack {
             if #available(iOS 14.0, *) {
                 homeView
-                    .fullScreenCover(isPresented: appSession.isPresentingLogin()) {
+                    .fullScreenCover(isPresented: appSession.isPresentingLoginSheet()) {
                         AuthenticationView()
                     }
             } else {

@@ -5,25 +5,26 @@
 //  Created by Cédric Bahirwe on 24/09/2022.
 //
 
-import Foundation
-import Combine
-import PDFKit
 import SwiftUI
 
+/// Due to some legal reasons,  the app has been left with no path forward.
 final class AppSession: ObservableObject {
     public static let shared = AppSession()
-    private let baseURL = "http://154.68.94.26/Rapport/"
 
-    @Published private(set) var isFetchingData = false
-    @Published private(set) var isLoggedIn: Bool
-    @Published private(set) var pdfData: Data?
-    @Published public var alert: AlertModel?
+    /// The  functional base url has been removed and disabled due to legal reasons
+    /// This is just a placeholder and won't work unfortunately ‼️
+    private let baseURL = "" // The base url for accessing the data source
 
     private var sessionID: Int?
     private var sessionDate: Date?
     private var transcriptData: Data?
     private let storage = UserDefaults.standard
-    private var cancellables = Set<AnyCancellable>()
+
+    @Published private(set) var isFetchingData = false
+    @Published private(set) var isLoggedIn: Bool
+    @Published private(set) var pdfData: Data?
+
+    @Published public var alert: AlertModel?
 
     init() {
         self.isLoggedIn = storage.bool(forKey: Keys.isLoggedIn)
@@ -37,22 +38,24 @@ final class AppSession: ObservableObject {
         }
     }
 
-    private func getFullURL(_ studentId: Int) -> URL? {
-        let urlString = baseURL.appending(String(studentId)).appending(".pdf")
-        return URL(string: urlString)
-    }
-
-    public func loadTranscript(_ studentId: Int) async {
+    func loadTranscript(_ studentId: Int) async {
+        // Check if the transcript is already stored
         if let transcriptData {
             self.pdfData = transcriptData
             return
         }
+
+        // Form the full url to fetch the resource
         guard let url = getFullURL(studentId) else { return }
+
         DispatchQueue.main.async {
             self.isFetchingData = true
         }
+
         do {
+            // Basic fetch process
             let data = try Data(contentsOf: url)
+
             DispatchQueue.main.async {
                 self.isFetchingData = false
                 self.saveTranscript(data)
@@ -72,11 +75,11 @@ final class AppSession: ObservableObject {
 
 // MARK: - AppSession User State
 extension AppSession {
-    public func validateStudentCardScan(_ scannedText: String, _ studentID: String) -> Bool {
+    func validateStudentCardScan(_ scannedText: String, _ studentID: String) -> Bool {
         scannedText.contains(studentID)
     }
 
-    public func setLogginState(_ state: Bool, _ studentId: Int) {
+    func setLogginState(_ state: Bool, _ studentId: Int) {
         let newDate = Date()
         UserDefaults.standard.set(state, forKey: Keys.isLoggedIn)
         UserDefaults.standard.set(studentId, forKey: Keys.sessionID)
@@ -87,17 +90,7 @@ extension AppSession {
         }
     }
 
-    private func saveTranscript(_ data: Data) {
-        UserDefaults.standard.set(data, forKey: Keys.transcriptData)
-        self.transcriptData = data
-    }
-
-    private func removeTranscript() {
-        UserDefaults.standard.set(nil, forKey: Keys.transcriptData)
-        self.transcriptData = nil
-    }
-
-    public func clearSession() {
+    func clearSession() {
         self.pdfData = nil
         UserDefaults.standard.set(false, forKey: Keys.isLoggedIn)
         UserDefaults.standard.removeObject(forKey: Keys.sessionID)
@@ -106,14 +99,7 @@ extension AppSession {
         setStates(false, nil, nil, nil)
     }
 
-    private func setStates(_ loggedIn: Bool, _ studentId: Int?, _ sessionDate: Date?, _ transcriptData: Data?) {
-        self.isLoggedIn = loggedIn
-        self.sessionID = studentId
-        self.sessionDate = sessionDate
-        self.transcriptData = transcriptData
-    }
-
-    public func isPresentingLogin() -> Binding<Bool> {
+    func isPresentingLoginSheet() -> Binding<Bool> {
         Binding(get: {
             self.isLoggedIn == false
         }, set: { newValue in
@@ -121,6 +107,32 @@ extension AppSession {
                 self.isLoggedIn = !newValue
             }
         })
+    }
+}
+
+
+// MARK: - Private Methods
+private extension AppSession {
+    func getFullURL(_ studentId: Int) -> URL? {
+        let urlString = baseURL.appending(String(studentId)).appending(".pdf")
+        return URL(string: urlString)
+    }
+
+    func saveTranscript(_ data: Data) {
+        UserDefaults.standard.set(data, forKey: Keys.transcriptData)
+        self.transcriptData = data
+    }
+
+    func removeTranscript() {
+        UserDefaults.standard.set(nil, forKey: Keys.transcriptData)
+        self.transcriptData = nil
+    }
+
+    func setStates(_ loggedIn: Bool, _ studentId: Int?, _ sessionDate: Date?, _ transcriptData: Data?) {
+        self.isLoggedIn = loggedIn
+        self.sessionID = studentId
+        self.sessionDate = sessionDate
+        self.transcriptData = transcriptData
     }
 }
 
