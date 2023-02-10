@@ -6,9 +6,9 @@
 
 - PDFKIt in SwiftUI
 
-Search View   | Result View
+Search View   | Result View(Blured for privacy reasons)
 --------------------- | ---------------------
-<img src="https://user-images.githubusercontent.com/49038614/193585303-451d3323-2189-4300-9757-830868fcdc50.png" width="320"> | <img src="https://user-images.githubusercontent.com/49038614/193585431-fdacf501-3e6a-4a6a-afe5-7e3bfe8c6f96.png" width="320">
+<img src="https://user-images.githubusercontent.com/49038614/193585303-451d3323-2189-4300-9757-830868fcdc50.png" width="320"> | <img src="https://user-images.githubusercontent.com/49038614/218076640-edb1cbfd-e86a-4bbc-a67f-78ea6cca7f39.jpg" width="320">
 
 Help View   | Empty View
 --------------------- | ---------------------
