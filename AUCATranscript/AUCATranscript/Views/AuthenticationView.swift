@@ -10,17 +10,14 @@ import SwiftUI
 struct AuthenticationView: View {
     @EnvironmentObject private var appSession: AppSession
     @State private var studentID = ""
-    @State private var studentIDPictureData: Data?
-    @State private var isShowingScannerSheet = false
-    @State private var notMatchFound = false
-    @State private var isValidCard = false
+    @State private var showScannerSheet = false
+    @State private var showNoMatchFound = false
+    @State private var isStudentCardValid = false
 
     var body: some View {
         ZStack {
             MainBackgroundView()
-                .onTapGesture {
-                    hideKeyboard()
-                }
+                .onTapGesture(perform: hideKeyboard)
 
             VStack(alignment: .leading, spacing: 15) {
                 Group {
@@ -29,9 +26,8 @@ struct AuthenticationView: View {
                         .foregroundColor(.white)
 
                     HStack {
-                        TextField("",
-                                  text: $studentID.onChange(cleanEnteredID))
-                        .keyboardType(.decimalPad)
+                        TextField("", text: $studentID.onChange(cleanEnteredID))
+                        .keyboardType(.numberPad)
                         .font(.body.weight(.semibold))
                         .foregroundColor(.white)
                         .padding(10)
@@ -41,7 +37,7 @@ struct AuthenticationView: View {
                                 .stroke(Color.white, lineWidth: 1.5)
                         )
 
-                        if validatedID() != nil {
+                        if isStudentIDValid() {
                             Image(systemName: "checkmark")
                                 .padding(8)
                                 .foregroundColor(.white)
@@ -61,18 +57,15 @@ struct AuthenticationView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     Button(action: openCamera) {
-                        Image(systemName: isValidCard ? "checkmark" : "camera")
-                            .padding(isValidCard ? 8 : 16)
+                        Image(systemName: isStudentCardValid ? "checkmark" : "camera")
+                            .padding(isStudentCardValid ? 8 : 16)
                             .foregroundColor(.white)
-                            .background(isValidCard ? Color.green : .accentColor)
+                            .background(isStudentCardValid ? Color.green : .accentColor)
                             .clipShape(Circle())
                     }
                 }
 
-                Button(action: {
-                    guard let id = validatedID() else { return }
-                    appSession.setLogginState(true, id)
-                }) {
+                Button(action: completeVerification) {
                     HStack {
                         Image(systemName: "checkmark.circle.fill")
                             .imageScale(.large)
@@ -82,9 +75,10 @@ struct AuthenticationView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .foregroundColor(.white)
-                    .background(validatedID() == nil || !isValidCard ? Color.gray : Color.accentColor)
+                    .background((isStudentIDValid() && isStudentCardValid) ? Color.accentColor : Color.gray)
                     .clipShape(Capsule())
                 }
+                .disabled(!(isStudentIDValid() && isStudentCardValid))
 
             }
             .frame(maxWidth: CGFloat.infinity > 500 ? 400 : .infinity, alignment: .leading)
@@ -93,13 +87,13 @@ struct AuthenticationView: View {
             .cornerRadius(15)
             .padding(.horizontal, 20)
         }
-        .alert(isPresented: $notMatchFound) {
+        .alert(isPresented: $showNoMatchFound) {
             Alert(title: Text("Student Card Validation"),
                   message: Text("No match was found.\nPlease make sure to enter a valid Student ID and the Student Card should be clear and visible."),
                   dismissButton: .default(Text("Okay"))
             )
         }
-        .sheet(isPresented: $isShowingScannerSheet) {
+        .sheet(isPresented: $showScannerSheet) {
             makeScannerView()
                 .edgesIgnoringSafeArea(.all)
         }
@@ -108,30 +102,43 @@ struct AuthenticationView: View {
 }
 
 // MARK: - Views
-extension AuthenticationView {
-    private func makeScannerView() -> ScannerView {
+private extension AuthenticationView {
+
+    /// Scanner Component used for Computer Vision Scann
+    /// - Returns: the view to use for scanning
+    func makeScannerView() -> ScannerView {
         ScannerView(completion: { textPerPage in
-            self.isShowingScannerSheet = false
+            self.showScannerSheet = false
             DispatchQueue.main.async {
                 if let scannedText = textPerPage?.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines) {
-                    print("The content is", scannedText)
-                    self.isValidCard = appSession.validateStudentCardScan(scannedText, studentID)
-                    if self.isValidCard == false {
-                        self.notMatchFound = true
+                    self.isStudentCardValid = appSession.validateStudentCardScan(scannedText, studentID)
+                    if self.isStudentCardValid == false {
+                        self.showNoMatchFound = true
                     }
                 }
             }
-
         })
     }
 }
 
+// MARK: - Private Methods
 private extension AuthenticationView {
-    func openCamera() {
-        hideKeyboard()
-        isShowingScannerSheet = true
+
+    /// Grant access if the validations have succeed
+    func completeVerification() {
+        guard isStudentIDValid() else { return }
+        guard let studentID = Int(studentID) else { return }
+        appSession.setLogginState(true, studentID)
     }
 
+    /// Open the camera to the scanning process
+    func openCamera() {
+        hideKeyboard()
+        showScannerSheet = true
+    }
+
+    /// Clean the `StudentID` entered
+    /// - Parameter id: the id value provided by the user
     func cleanEnteredID(_ id: String) {
         let lettersRemoved = id.components(separatedBy: CharacterSet.letters).joined()
         let spacesRemoved = lettersRemoved.components(separatedBy: .whitespacesAndNewlines).joined()
@@ -140,15 +147,20 @@ private extension AuthenticationView {
         self.studentID = String(symbolsRemoved.prefix(5))
     }
 
-    func validatedID() -> Int? {
-        guard studentID.count == 5 else { return nil }
-        return Int(studentID)
+
+    /// Validate whether the `StudentID` follow the correct format
+    /// - Returns: return whether the id is valid or not
+    func isStudentIDValid() -> Bool {
+        guard studentID.count == 5 else { return false }
+        return Int(studentID) != nil
     }
 }
 
+#if DEBUG
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
         AuthenticationView()
             .environmentObject(AppSession.shared)
     }
 }
+#endif
