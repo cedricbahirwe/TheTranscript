@@ -1,4 +1,4 @@
-# AUCA-Transcript
+# TheTranscript
 **Problem Solving:**  This app allow AUCA students to get access to their transcripts using their ID in a matter of seconds.
 
 
