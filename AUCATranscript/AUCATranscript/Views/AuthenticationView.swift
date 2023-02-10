@@ -98,7 +98,6 @@ struct AuthenticationView: View {
                 .edgesIgnoringSafeArea(.all)
         }
     }
-
 }
 
 // MARK: - Views

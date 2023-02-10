@@ -17,6 +17,7 @@ extension View {
 #endif
 
 extension Binding {
+    /// Provide direct Observation of binding value
     func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
         Binding(
             get: { self.wrappedValue },

@@ -8,7 +8,7 @@
 import Foundation
 
 struct AlertModel: Identifiable {
-    var id = UUID()
+    let id = UUID()
     var title: String = "Alert"
-    var message: String
+    let message: String
 }
