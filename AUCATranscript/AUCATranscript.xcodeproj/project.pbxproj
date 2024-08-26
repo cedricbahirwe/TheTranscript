@@ -24,6 +24,7 @@
 		CB2F6ECF28DFAB7B0039A7E3 /* PDFViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */; };
 		CB55B1622C7C92A200685486 /* StudentCredentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB55B1612C7C92A100685486 /* StudentCredentials.swift */; };
 		CB55B1642C7C97DD00685486 /* ErrorResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB55B1632C7C97DD00685486 /* ErrorResponse.swift */; };
+		CB55B1682C7C9E3C00685486 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB55B1672C7C9E3C00685486 /* ActivityIndicatorView.swift */; };
 		CB85A81E28E4C01100A1F03D /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB85A81D28E4C01100A1F03D /* ShareSheetView.swift */; };
 		CBC0896F28E0880900B6F685 /* AlertModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC0896E28E0880900B6F685 /* AlertModel.swift */; };
 		CBFD39EF28EAE8FF00263232 /* TextRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBFD39EE28EAE8FF00263232 /* TextRecognizer.swift */; };
@@ -70,6 +71,7 @@
 		CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFViewer.swift; sourceTree = "<group>"; };
 		CB55B1612C7C92A100685486 /* StudentCredentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentCredentials.swift; sourceTree = "<group>"; };
 		CB55B1632C7C97DD00685486 /* ErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorResponse.swift; sourceTree = "<group>"; };
+		CB55B1672C7C9E3C00685486 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		CB85A81D28E4C01100A1F03D /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
 		CBC0896E28E0880900B6F685 /* AlertModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModel.swift; sourceTree = "<group>"; };
 		CBFD39EE28EAE8FF00263232 /* TextRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextRecognizer.swift; sourceTree = "<group>"; };
@@ -174,6 +176,7 @@
 				CBFD39F228EAEA4A00263232 /* SettingsView.swift */,
 				CB2F6EBF28DF5E430039A7E3 /* MainBackgroundView.swift */,
 				CB2F6ECE28DFAB7B0039A7E3 /* PDFViewer.swift */,
+				CB55B1672C7C9E3C00685486 /* ActivityIndicatorView.swift */,
 				CBFD39ED28EAE8E500263232 /* TextRecognizer */,
 			);
 			path = Views;
@@ -286,7 +289,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1400;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1530;
 				TargetAttributes = {
 					CB2F6E8328DF4CA30039A7E3 = {
 						CreatedOnToolsVersion = 14.0;
@@ -368,6 +371,7 @@
 				CB2F6ECB28DF66860039A7E3 /* Helper.swift in Sources */,
 				CB2D3A1328E8E51200755AB6 /* AuthenticationView.swift in Sources */,
 				CB2F6EB628DF4EE80039A7E3 /* SceneDelegate.swift in Sources */,
+				CB55B1682C7C9E3C00685486 /* ActivityIndicatorView.swift in Sources */,
 				CB2F6EC028DF5E430039A7E3 /* MainBackgroundView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -441,6 +445,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -455,7 +460,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -501,6 +506,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -509,7 +515,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -543,7 +549,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.AUCATranscript;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -576,7 +582,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.abc.incs.cedricbahirwe.AUCATranscript;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
