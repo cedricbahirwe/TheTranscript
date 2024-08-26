@@ -28,6 +28,7 @@ final class AppSession: ObservableObject {
     @Published public var alert: AlertModel?
 
     init() {
+        print("Check", storage.bool(forKey: Keys.isLoggedIn))
         self.isLoggedIn = storage.bool(forKey: Keys.isLoggedIn)
         self.credentials = storage.decode(forKey: Keys.studentCredentials)
         self.sessionCookie = storage.string(forKey: Keys.sessionCookie)

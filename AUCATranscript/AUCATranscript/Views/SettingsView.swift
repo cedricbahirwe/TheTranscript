@@ -43,7 +43,9 @@ struct SettingsView: View {
 
                             Button(action: {
                                 presentationMode.wrappedValue.dismiss()
-                                appSession.clearSession()
+                                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                    appSession.clearSession()
+                                }
                             }) {
                                 Text("Delete Now")
                                     .font(.system(.body, design: .rounded))

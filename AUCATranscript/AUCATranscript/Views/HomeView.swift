@@ -50,11 +50,11 @@ struct HomeView: View {
                                     shareBtn
                                 }, alignment: .bottom)
                         } else {
-                            Text("No Transcript to show yet😰\n Try searching for your Student ID")
+                            Text("No Transcript to show yet😰")
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.semibold)
                                 .multilineTextAlignment(.center)
-                                .opacity(0.5)
+                                .foregroundColor(Color(.darkGray))
 
                         }
                     }
