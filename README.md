@@ -1,7 +1,6 @@
 # TheTranscript
-**Problem Solving:**  This app allowed AUCA students to get access to their transcripts using their ID in a matter of seconds.
+**Problem Solving:**  This app allowed AUCA students to get access to their transcripts using their Student ID and Password in a matter of seconds.
 
-This repository is `Read-Only` and is not longer maintained
 
 Search View   | Result View(Blured for privacy reasons)
 --------------------- | ---------------------
