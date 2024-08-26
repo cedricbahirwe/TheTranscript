@@ -93,7 +93,7 @@ private extension HomeView {
     var progressView: some View {
         Group {
             if appSession.isFetchingData {
-                ActivityIndicator()
+                ActivityIndicatorView()
             }
         }
     }
@@ -133,21 +133,3 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 #endif
-
-
-struct ActivityIndicator: View {
-    var body: some View {
-        ZStack {
-            Color.white
-                .ignoresSafeArea()
-            
-            VStack(spacing: 20) {
-                ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                    .scaleEffect(2)
-                Text("Wait a moment...")
-                    .foregroundColor(.black)
-            }
-        }
-    }
-}

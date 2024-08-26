@@ -86,7 +86,7 @@ struct AuthenticationView: View {
             .padding(.horizontal, 20)
             
             if appSession.isFetchingData {
-                ActivityIndicator()
+                ActivityIndicatorView()
             }
         }
         .alert(item: $appSession.alert) { alert in
