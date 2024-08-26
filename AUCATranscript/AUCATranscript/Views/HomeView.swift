@@ -16,9 +16,9 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            MainBackgroundView()
+            MainBackgroundView(color: .white)
             
-            VStack {
+            VStack(spacing: 0) {
                 titleView
                     .opacity(0)
                     .overlay (
@@ -38,21 +38,23 @@ struct HomeView: View {
                             .cornerRadius(16)
                     )
                     .clipShape(Capsule())
-                    .padding()
 
                 ZStack {
 
                     Group {
                         if let pdfData = appSession.pdfData {
                             PDFViewer(pdfData)
-                                .overlay(shareBtn, alignment: .topTrailing)
-                                .overlay(settingsBtn, alignment: .bottomLeading)
+                                .overlay(HStack {
+                                    settingsBtn
+                                    Spacer()
+                                    shareBtn
+                                }, alignment: .bottom)
                         } else {
-                            Text("No Transcript to show yet😰\n Try searching for your Student ID")
+                            Text("No Transcript to show yet😰")
                                 .font(.system(.title, design: .rounded))
                                 .fontWeight(.semibold)
                                 .multilineTextAlignment(.center)
-                                .opacity(0.5)
+                                .foregroundColor(Color(.darkGray))
 
                         }
                     }
@@ -100,13 +102,6 @@ struct HomeView: View {
             progressView
         }
         .foregroundColor(.white)
-        .alert(item: $appSession.alert) { alert in
-            Alert(title: Text(alert.title),
-                  message: Text(alert.message),
-                  dismissButton: .default(Text("Okay"),
-                                          action: handleOkayAction)
-            )
-        }
         .sheet(isPresented: $showSettingsView, content: SettingsView.init)
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(activityItems: [appSession.pdfData ?? []])
@@ -116,10 +111,6 @@ struct HomeView: View {
 
 // MARK: - Helper Methods
 private extension HomeView {
-    private func handleOkayAction() {
-        appSession.clearSession()
-    }
-
     private func loadTranscript() async {
         switch uiMode {
         case .display:
@@ -128,7 +119,7 @@ private extension HomeView {
             guard enteredID.count == 5,
                   let otherId = Int(enteredID) else { return }
 
-            await appSession.loadTranscript(otherId)
+//            await appSession.loadTranscript(otherId)
         }
     }
 
@@ -177,19 +168,7 @@ private extension HomeView {
     var progressView: some View {
         Group {
             if appSession.isFetchingData {
-                ZStack {
-                    Color.black
-
-                    VStack(spacing: 15) {
-                        if #available(iOS 14.0, *) {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                        } else {
-                            ActivityIndicator()
-                        }
-                        Text("Wait a moment...")
-                    }
-                }
+                ActivityIndicator()
             }
         }
     }
@@ -252,3 +231,21 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 #endif
+
+
+struct ActivityIndicator: View {
+    var body: some View {
+        ZStack {
+            Color.white
+                .ignoresSafeArea()
+            
+            VStack(spacing: 20) {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                    .scaleEffect(2)
+                Text("Wait a moment...")
+                    .foregroundColor(.black)
+            }
+        }
+    }
+}

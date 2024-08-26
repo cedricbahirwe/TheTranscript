@@ -17,13 +17,13 @@ struct SettingsView: View {
 
             ScrollView {
                 VStack(alignment: .leading) {
-                    Text("Help")
-                        .font(.largeTitle.weight(.bold))
-                        .padding(.vertical)
+                    Text("About")
+                        .font(.system(size: 30, weight: .bold, design: .rounded))
+                        .padding(.bottom)
 
                     Text("The purpose of this application is to allow AUCA (Adventist University of Central Africa) students access their transcripts quickly and easily.\n\nEasing the process to check  their semesters grades anytime, anywhere.\n\nThe transcript is shown as a PDF file with the ability to share it with others or save it for later use.")
 
-                    Text("\nFor privacy and security reasons, All information is always kept on your device.\n")
+                    Text("\nFor privacy and security reasons, Your information is always kept on your device.\n")
                         .foregroundColor(.green)
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -31,19 +31,23 @@ struct SettingsView: View {
                             .font(.headline.weight(.semibold))
                             .foregroundColor(.accentColor)
 
-                        Text("This means you will have to enter your Student Card and ID again to check your transcript.")
-                            .italic()
+                        Text("This means you will have to enter your Student ID and Password again to check your transcript.")
+                            .foregroundColor(.secondary)
 
+                        Divider()
+                        
                         HStack {
-                            Text("You can also delete your session now.")
+                            Text("You can manually delete your session now.")
                                 .opacity(0.8)
                                 .frame(maxWidth: .infinity, alignment: .leading)
 
                             Button(action: {
                                 presentationMode.wrappedValue.dismiss()
-                                appSession.clearSession()
+                                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                    appSession.clearSession()
+                                }
                             }) {
-                                Text("Delete now")
+                                Text("Delete Now")
                                     .font(.system(.body, design: .rounded))
                                     .bold()
                                     .foregroundColor(.white)
@@ -55,17 +59,16 @@ struct SettingsView: View {
                     }
                     .padding()
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color.gray.opacity(0.2))
+                    .background(Color.white.opacity(0.75))
                     .cornerRadius(15)
-
+                    .foregroundColor(.black)
 
                     Button {
                         presentationMode.wrappedValue.dismiss()
                     } label: {
-                        Text("Return")
+                        Text("Dismiss")
                             .font(.system(.body, design: .rounded))
                             .bold()
-                            .foregroundColor(.white)
                             .padding(.vertical)
                             .frame(maxWidth: .infinity)
                             .background(Color.accentColor)
