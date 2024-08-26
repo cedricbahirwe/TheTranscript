@@ -1,12 +1,10 @@
 # TheTranscript
-**Problem Solving:**  This app allowed AUCA students to get access to their transcripts using their ID in a matter of seconds.
+This app allowed AUCA students to access their transcripts using their ID in a few seconds.
 
-This repository is `Read-Only` and is not longer maintained
-
-Search View   | Result View(Blured for privacy reasons)
+Search View   | Result View(Blurred for privacy reasons)
 --------------------- | ---------------------
-<img src="https://user-images.githubusercontent.com/49038614/193585303-451d3323-2189-4300-9757-830868fcdc50.png" width="320"> | <img src="https://user-images.githubusercontent.com/49038614/218076640-edb1cbfd-e86a-4bbc-a67f-78ea6cca7f39.jpg" width="320">
+<img src="https://github.com/user-attachments/assets/ef9f4d78-d454-41cf-9ec1-65e4ec3d1c84" width="320"> | <img src="https://github.com/user-attachments/assets/d47e8d84-6021-46e5-8fce-8b0ca910c5a7" width="320">)
 
 Help View   | Empty View
 --------------------- | ---------------------
-<img src="https://user-images.githubusercontent.com/49038614/193585548-07063533-f466-467e-bd20-6153f38f9b1b.png" width="320"> | <img src="https://user-images.githubusercontent.com/49038614/193585568-04c1088f-9280-45ee-a804-6344b7a3000a.png" width="320">
+<img src="https://github.com/user-attachments/assets/1426f53d-6b9b-46bd-913f-771492b13772" width="320"> | <img src="https://github.com/user-attachments/assets/242c972b-d4f1-4cc3-a49d-0ba0fbdd4298" width="320">
