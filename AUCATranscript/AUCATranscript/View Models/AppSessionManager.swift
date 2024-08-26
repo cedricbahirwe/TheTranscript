@@ -13,9 +13,10 @@ final class AppSession: ObservableObject {
 
     /// The  functional base url has been removed and disabled due to legal reasons
     /// This is just a placeholder and won't work unfortunately ‼️
-    private let baseURL = "" // The base url for accessing the data source
+    private let baseURL = URL(string: "https://auca-transcript-be-production-9b93.up.railway.app/get-transcript/")! // The base url for accessing the data source
 
-    private var sessionID: Int?
+    private var credentials: StudentCredentials?
+    private var sessionCookie: String?
     private var sessionDate: Date?
     private var transcriptData: Data?
     private let storage = UserDefaults.standard
@@ -28,39 +29,47 @@ final class AppSession: ObservableObject {
 
     init() {
         self.isLoggedIn = storage.bool(forKey: Keys.isLoggedIn)
-        self.sessionID = storage.value(forKey: Keys.sessionID) as? Int
+        self.credentials = storage.decode(forKey: Keys.studentCredentials)
+        self.sessionCookie = storage.string(forKey: Keys.sessionCookie)
         self.sessionDate = storage.value(forKey: Keys.sessionDate) as? Date
         self.transcriptData = storage.data(forKey: Keys.transcriptData)
 
         Task {
-            guard let sessionID else { return }
-            await loadTranscript(sessionID)
+            guard let credentials else { return }
+            await loadTranscript(credentials)
         }
     }
 
-    func loadTranscript(_ studentId: Int) async {
+    @discardableResult
+    func loadTranscript(_ credentials: StudentCredentials) async -> Bool {
         // Check if the transcript is already stored
         if let transcriptData {
             self.pdfData = transcriptData
-            return
+            return true
         }
 
         // Form the full url to fetch the resource
-        guard let url = getFullURL(studentId) else { return }
+        var request = URLRequest(url: baseURL)
+        
+        let encoded = try! JSONEncoder().encode(credentials)
+        request.httpBody = encoded
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")            
 
+        
         DispatchQueue.main.async {
             self.isFetchingData = true
         }
 
         do {
-            // Basic fetch process
-            let data = try Data(contentsOf: url)
-
+            let (data, response) = try await URLSession.shared.data(for: request)
+            print("URL", response.url)
             DispatchQueue.main.async {
                 self.isFetchingData = false
                 self.saveTranscript(data)
                 self.pdfData = data
             }
+            return true
         } catch {
             DispatchQueue.main.async {
                 self.isFetchingData = false
@@ -69,6 +78,7 @@ final class AppSession: ObservableObject {
                 self.alert = AlertModel(message: "Sorry, We could not find the transcript for the provided student ID.\n Try another student ID")
             }
             print(error.localizedDescription)
+            return false
         }
     }
 }
@@ -78,25 +88,30 @@ extension AppSession {
     func validateStudentCardScan(_ scannedText: String, _ studentID: String) -> Bool {
         scannedText.contains(studentID)
     }
+    
+    func loginWith(credentials: StudentCredentials) {
+        Task { @MainActor in
+            guard await loadTranscript(credentials) else { return }
+            setLogginState(true, credentials)
+        }
+    }
 
-    func setLogginState(_ state: Bool, _ studentId: Int) {
+    func setLogginState(_ state: Bool, _ credentials: StudentCredentials) {
         let newDate = Date()
         UserDefaults.standard.set(state, forKey: Keys.isLoggedIn)
-        UserDefaults.standard.set(studentId, forKey: Keys.sessionID)
+        UserDefaults.standard.encode(credentials, forKey: Keys.studentCredentials)
         UserDefaults.standard.set(newDate, forKey: Keys.sessionDate)
-        setStates(state, studentId, newDate, nil)
-        Task {
-            await loadTranscript(studentId)
-        }
+        setStates(loggedIn: state, credentials: credentials, sessionDate: newDate, transcriptData: nil, sessionCookie: nil)
     }
 
     func clearSession() {
         self.pdfData = nil
         UserDefaults.standard.set(false, forKey: Keys.isLoggedIn)
-        UserDefaults.standard.removeObject(forKey: Keys.sessionID)
+        UserDefaults.standard.removeObject(forKey: Keys.studentCredentials)
+        UserDefaults.standard.removeObject(forKey: Keys.sessionCookie)
         UserDefaults.standard.removeObject(forKey: Keys.sessionDate)
         UserDefaults.standard.removeObject(forKey: Keys.transcriptData)
-        setStates(false, nil, nil, nil)
+        setStates(loggedIn: false, credentials: nil, sessionDate: nil, transcriptData: nil, sessionCookie: nil)
     }
 
     func isPresentingLoginSheet() -> Binding<Bool> {
@@ -113,12 +128,8 @@ extension AppSession {
 
 // MARK: - Private Methods
 private extension AppSession {
-    func getFullURL(_ studentId: Int) -> URL? {
-        let urlString = baseURL.appending(String(studentId)).appending(".pdf")
-        return URL(string: urlString)
-    }
-
     func saveTranscript(_ data: Data) {
+        print("Counting", data.count / 1024)
         UserDefaults.standard.set(data, forKey: Keys.transcriptData)
         self.transcriptData = data
     }
@@ -128,11 +139,12 @@ private extension AppSession {
         self.transcriptData = nil
     }
 
-    func setStates(_ loggedIn: Bool, _ studentId: Int?, _ sessionDate: Date?, _ transcriptData: Data?) {
+    func setStates(loggedIn: Bool, credentials: StudentCredentials?, sessionDate: Date?, transcriptData: Data?, sessionCookie: String?) {
         self.isLoggedIn = loggedIn
-        self.sessionID = studentId
+        self.credentials = credentials
         self.sessionDate = sessionDate
         self.transcriptData = transcriptData
+        self.sessionCookie = sessionCookie
     }
 }
 
@@ -140,8 +152,22 @@ private extension AppSession {
 extension AppSession {
     enum Keys {
         static let isLoggedIn =  "app.session.isLoggedIn"
-        static let sessionID =  "app.session.sessionID"
+        static let studentCredentials = "app.session.credentials"
+        static let sessionCookie = "app.session.sessionCookie"
         static let sessionDate =  "app.session.sessionDate"
         static let transcriptData =  "app.session.transcriptData"
+    }
+}
+
+extension UserDefaults {
+    func decode<T: Codable>(forKey key: String) -> T? {
+        guard let data = data(forKey: key) else { return nil }
+        return try? JSONDecoder().decode(T.self, from: data)
+    }
+    
+    func encode<T: Codable>(_ value: T, forKey key: String) {
+        guard let data = try? JSONEncoder().encode(value) else { return }
+        self.setValue(data, forKey: key)
+
     }
 }

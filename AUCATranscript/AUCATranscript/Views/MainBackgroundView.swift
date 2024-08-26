@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct MainBackgroundView: View {
+    var color: Color = .black
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            color.edgesIgnoringSafeArea(.all)
             Image("auca.logo")
                 .blur(radius:10)
 
-            Color.black.opacity(0.3)
+            color.opacity(0.3)
         }
     }
 }

@@ -16,9 +16,9 @@ struct HomeView: View {
 
     var body: some View {
         ZStack {
-            MainBackgroundView()
+            MainBackgroundView(color: .white)
             
-            VStack {
+            VStack(spacing: 0) {
                 titleView
                     .opacity(0)
                     .overlay (
@@ -38,15 +38,17 @@ struct HomeView: View {
                             .cornerRadius(16)
                     )
                     .clipShape(Capsule())
-                    .padding()
 
                 ZStack {
 
                     Group {
                         if let pdfData = appSession.pdfData {
                             PDFViewer(pdfData)
-                                .overlay(shareBtn, alignment: .topTrailing)
-                                .overlay(settingsBtn, alignment: .bottomLeading)
+                                .overlay(HStack {
+                                    settingsBtn
+                                    Spacer()
+                                    shareBtn
+                                }, alignment: .bottom)
                         } else {
                             Text("No Transcript to show yet😰\n Try searching for your Student ID")
                                 .font(.system(.title, design: .rounded))
@@ -128,7 +130,7 @@ private extension HomeView {
             guard enteredID.count == 5,
                   let otherId = Int(enteredID) else { return }
 
-            await appSession.loadTranscript(otherId)
+//            await appSession.loadTranscript(otherId)
         }
     }
 
@@ -177,19 +179,7 @@ private extension HomeView {
     var progressView: some View {
         Group {
             if appSession.isFetchingData {
-                ZStack {
-                    Color.black
-
-                    VStack(spacing: 15) {
-                        if #available(iOS 14.0, *) {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-                        } else {
-                            ActivityIndicator()
-                        }
-                        Text("Wait a moment...")
-                    }
-                }
+                ActivityIndicator()
             }
         }
     }
@@ -252,3 +242,21 @@ struct HomeView_Previews: PreviewProvider {
     }
 }
 #endif
+
+
+struct ActivityIndicator: View {
+    var body: some View {
+        ZStack {
+            Color.white
+                .ignoresSafeArea()
+            
+            VStack(spacing: 20) {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                    .scaleEffect(2)
+                Text("Wait a moment...")
+                    .foregroundColor(.black)
+            }
+        }
+    }
+}
