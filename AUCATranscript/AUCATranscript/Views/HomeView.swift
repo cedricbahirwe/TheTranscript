@@ -102,13 +102,6 @@ struct HomeView: View {
             progressView
         }
         .foregroundColor(.white)
-        .alert(item: $appSession.alert) { alert in
-            Alert(title: Text(alert.title),
-                  message: Text(alert.message),
-                  dismissButton: .default(Text("Okay"),
-                                          action: handleOkayAction)
-            )
-        }
         .sheet(isPresented: $showSettingsView, content: SettingsView.init)
         .sheet(isPresented: $showShareSheet) {
             ShareSheet(activityItems: [appSession.pdfData ?? []])
@@ -118,10 +111,6 @@ struct HomeView: View {
 
 // MARK: - Helper Methods
 private extension HomeView {
-    private func handleOkayAction() {
-        appSession.clearSession()
-    }
-
     private func loadTranscript() async {
         switch uiMode {
         case .display:

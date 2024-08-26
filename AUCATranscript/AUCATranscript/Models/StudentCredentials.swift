@@ -8,8 +8,8 @@
 import Foundation
 
 struct StudentCredentials: Codable {
-    var username = "23455"
-    var password = "cedricaganzelucie"
+    var username = ""
+    var password = ""
     
     /// Validate whether the `StudentID` follow the correct format
     /// - Returns: return whether the id is valid or not

@@ -28,7 +28,6 @@ final class AppSession: ObservableObject {
     @Published public var alert: AlertModel?
 
     init() {
-        print("Check", storage.bool(forKey: Keys.isLoggedIn))
         self.isLoggedIn = storage.bool(forKey: Keys.isLoggedIn)
         self.credentials = storage.decode(forKey: Keys.studentCredentials)
         self.sessionCookie = storage.string(forKey: Keys.sessionCookie)
@@ -41,6 +40,7 @@ final class AppSession: ObservableObject {
         }
     }
 
+    @MainActor
     @discardableResult
     func loadTranscript(_ credentials: StudentCredentials) async -> Bool {
         // Check if the transcript is already stored
@@ -49,7 +49,6 @@ final class AppSession: ObservableObject {
             return true
         }
 
-        // Form the full url to fetch the resource
         var request = URLRequest(url: baseURL)
         
         let encoded = try! JSONEncoder().encode(credentials)
@@ -57,29 +56,52 @@ final class AppSession: ObservableObject {
         request.httpMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")            
 
-        
         DispatchQueue.main.async {
             self.isFetchingData = true
         }
 
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
-            print("URL", response.url)
-            DispatchQueue.main.async {
-                self.isFetchingData = false
-                self.saveTranscript(data)
-                self.pdfData = data
+
+            if let httpResponse = response as? HTTPURLResponse {
+                switch httpResponse.statusCode {
+                case 200..<300:
+                    // Successful response
+                    DispatchQueue.main.async {
+                        self.isFetchingData = false
+                        self.saveTranscript(data)
+                        self.pdfData = data
+                    }
+                    return true
+                case 401:
+                    // Handle unauthorized error specifically
+                    if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                        showAlert(message: "\(errorResponse.detail.message)\n\(errorResponse.detail.hint)")
+                    } else {
+                        showAlert(message: "Unauthorized access. Please check your credentials.")
+                    }
+                    return false
+                default:
+                    showAlert(message: "An error occurred (Status code: \(httpResponse.statusCode)). Please try again.")
+                    print("Unexpected status code: \(httpResponse.statusCode)")
+                    return false
+                }
+            } else {
+                showAlert(message: "An unexpected error occurred. Please try again.")
+                return false
             }
-            return true
         } catch {
-            DispatchQueue.main.async {
-                self.isFetchingData = false
-                self.pdfData = nil
-                self.transcriptData = nil
-                self.alert = AlertModel(message: "Sorry, We could not find the transcript for the provided student ID.\n Try another student ID")
-            }
-            print(error.localizedDescription)
+            showAlert(message: "Sorry, We could not find the transcript for the provided credentials.")
             return false
+        }
+    }
+    
+    private func showAlert(message: String) {
+        DispatchQueue.main.async {
+            self.isFetchingData = false
+            self.pdfData = nil
+            self.transcriptData = nil
+            self.alert = AlertModel(message:  message)
         }
     }
 }
