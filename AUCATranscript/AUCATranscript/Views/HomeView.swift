@@ -9,8 +9,6 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject private var appSession: AppSession
-    @State private var uiMode: UIMode = .display
-    @State private var enteredID = ""
     @State private var showShareSheet = false
     @State private var showSettingsView = false
 
@@ -58,43 +56,6 @@ struct HomeView: View {
 
                         }
                     }
-                    .opacity(uiMode == .search ? 0 : 1)
-
-                    VStack {
-                        Text("Enter your a valid AUCA Student ID")
-                            .font(.headline)
-                            .foregroundColor(.white)
-
-                        HStack(spacing: 1) {
-                            TextField("",
-                                      text: $enteredID.onChange(cleanEnteredID))
-                            .colorMultiply(enteredID.isEmpty ? .gray : .white)
-                            .colorMultiply(enteredID.isEmpty ? .gray : .white)
-                            .keyboardType(.decimalPad)
-                            .padding(.horizontal, 15)
-                            .padding(.vertical, 8)
-                            .frame(maxWidth: 250)
-                            .font(.system(size: enteredID.isEmpty ? 16 : 40,
-                                          weight: .black,
-                                          design: .rounded))
-                            Button(action: findTranscript) {
-                                Image(systemName: "magnifyingglass")
-                                    .padding()
-                                    .background(Color.accentColor)
-                                    .clipShape(Circle())
-                            }
-                        }
-                        .frame(height: 50)
-                        .background(Color.white.opacity(0.3))
-                        .clipShape(Capsule())
-                        .animation(.easeInOut, value: enteredID)
-
-                        Text("It should be a 5-digits number")
-                            .italic()
-                    }
-                    .opacity(uiMode == .search ? 1 : 0)
-                    .animation(.easeInOut, value: uiMode)
-                    .padding(16)
                 }
                 .frame(maxHeight: .infinity)
             }
@@ -111,48 +72,12 @@ struct HomeView: View {
 
 // MARK: - Helper Methods
 private extension HomeView {
-    private func loadTranscript() async {
-        switch uiMode {
-        case .display:
-            break;
-        case .search:
-            guard enteredID.count == 5,
-                  let otherId = Int(enteredID) else { return }
-
-//            await appSession.loadTranscript(otherId)
-        }
-    }
 
     private func sharePDF() {
         guard let _ = appSession.pdfData else {
             return
         }
         showShareSheet.toggle()
-    }
-
-    private func handleModeChange() {
-        hideKeyboard()
-        uiMode.toggle()
-    }
-
-    private func findTranscript() {
-        guard enteredID.count == 5,
-              let _ = Int(enteredID) else { return }
-        hideKeyboard()
-
-        Task {
-            await loadTranscript()
-            uiMode = .display
-            enteredID = ""
-        }
-    }
-
-    private func cleanEnteredID(_ id: String) {
-        let lettersRemoved = id.components(separatedBy: CharacterSet.letters).joined()
-        let spacesRemoved = lettersRemoved.components(separatedBy: .whitespacesAndNewlines).joined()
-        let symbolsRemoved = spacesRemoved.components(separatedBy: .symbols).joined()
-
-        self.enteredID = String(symbolsRemoved.prefix(5))
     }
 }
 
@@ -170,19 +95,6 @@ private extension HomeView {
             if appSession.isFetchingData {
                 ActivityIndicator()
             }
-        }
-    }
-
-    var searchToggleBtn: some View {
-        Button(action: handleModeChange) {
-            let isSearch = uiMode == .search
-            HStack {
-                Image(systemName: isSearch ? "house" : "magnifyingglass")
-                Text(isSearch ? "Go Home" : "Search for a transcript")
-            }
-            .padding()
-            .background(Color.accentColor)
-            .clipShape(Capsule())
         }
     }
 
@@ -211,16 +123,6 @@ private extension HomeView {
     }
 }
 
-// MARK: - Models
-extension HomeView {
-    enum UIMode {
-        case display
-        case search
-        mutating func toggle()  {
-            self = self == .display ? .search : .display
-        }
-    }
-}
 
 #if DEBUG
 struct HomeView_Previews: PreviewProvider {
