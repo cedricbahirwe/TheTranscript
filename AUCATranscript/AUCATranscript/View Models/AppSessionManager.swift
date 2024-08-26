@@ -73,7 +73,7 @@ final class AppSession: ObservableObject {
                         self.pdfData = data
                     }
                     return true
-                case 401:
+                case 400..<500:
                     // Handle unauthorized error specifically
                     if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
                         showAlert(message: "\(errorResponse.detail.message)\n\(errorResponse.detail.hint)")

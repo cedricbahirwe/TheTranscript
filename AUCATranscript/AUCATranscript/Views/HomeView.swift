@@ -40,7 +40,7 @@ struct HomeView: View {
                 ZStack {
 
                     Group {
-                        if let pdfData = appSession.pdfData {
+                        if let pdfData = appSession.pdfData, false {
                             PDFViewer(pdfData)
                                 .overlay(HStack {
                                     settingsBtn
